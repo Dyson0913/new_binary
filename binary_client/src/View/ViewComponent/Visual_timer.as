@@ -43,9 +43,7 @@ package View.ViewComponent
 		
 		public function init():void
 		{			 
-			var time_bar_container:MultiObject = create("time_bar_container", [ResName.emptymc]);			
-			time_bar_container.CustomizedFun = time_init;			
-			time_bar_container.CustomizedData = [];
+			var time_bar_container:MultiObject = create("time_bar_container", [ResName.emptymc]);	
 			time_bar_container.container.x = 490;
 			time_bar_container.container.y = 50;
 			time_bar_container.Create_(1);
@@ -55,6 +53,21 @@ package View.ViewComponent
 		   Waring_sec = 7;
 		   
 		   state_parse([gameState.START_BET]);
+		}
+		
+		override public function appear():void
+		{
+			var time_bar_container:MultiObject = Get("time_bar_container");
+			time_bar_container.CustomizedFun = time_init;			
+			time_bar_container.CustomizedData = [];
+			time_bar_container.FlushObject();
+			//setInterval(updatetimer, 1000, "time_", 0);
+			
+			//setFrame(Timer, 2);
+			//var time:int = _model.getValue(modelName.REMAIN_TIME);
+			//frame_setting_way(time);
+			//
+			//Tweener.addCaller(this, { time:time , count: time, onUpdate:TimeCount , transition:"linear" } );
 		}
 		
 		public function time_init(mc:MovieClip, idx:int, data:Array):void
@@ -79,17 +92,6 @@ package View.ViewComponent
 			mc.addChildAt(bg,0);
 			
 			put_to_lsit(ob_cotainer);	
-		}
-		
-		override public function appear():void
-		{
-			//setInterval(updatetimer, 1000, "time_", 0);
-			
-			//setFrame(Timer, 2);
-			//var time:int = _model.getValue(modelName.REMAIN_TIME);
-			//frame_setting_way(time);
-			//
-			//Tweener.addCaller(this, { time:time , count: time, onUpdate:TimeCount , transition:"linear" } );
 		}
 		
 		public function updatetimer():void

@@ -24,8 +24,7 @@ package View.ViewComponent
 		}
 		
 		public function init():void
-		{
-			//賠率提示
+		{			
 			var theme:MultiObject = create("theme", [theme]);	
 			theme.container.x = 52.65;
 			theme.container.y = 255.7;
@@ -43,7 +42,7 @@ package View.ViewComponent
 			
 			put_to_lsit(Zonetitle);
 			
-			state_parse([gameState.NEW_ROUND,gameState.START_BET]);
+			state_parse([gameState.NEW_ROUND,gameState.NEW_ROUND]);
 		}
 		
 		override public function appear():void

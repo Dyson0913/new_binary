@@ -31,36 +31,45 @@ package View.ViewComponent
 		
 		public function init():void
 		{			
-			var date:Array = []
-			for (var i:int = 0; i < 100; i++)
-			{
-				date.push([ i*5,  utilFun.Random(50)  * (utilFun.Random(2) *2-1)   ]);
-			}
-			var stockchat:MultiObject = create("stock_chat",["stock_chat"] );
 			
-			//以昨日收盤價為中點 
-			stockchat.CustomizedData =  date;// [[40, 30], [50, -50], [60, 30], [90, -50], [100, 40]];
-			stockchat.CustomizedFun = mystockchat;
-			
+			var stockchat:MultiObject = create("stock_chat",["stock_chat"] );			
 			stockchat.Create_(1);
 			stockchat.container.x = 30;
 			stockchat.container.y = 188;
+			setFrame("stock_chat", 1);
 			
 			put_to_lsit(stockchat);
-			
 			
 			//購買清單
 			var shoppingboard:MultiObject = create("shoppingboard", ["shopping_board"] );
 			shoppingboard.container.x = 30;
 			shoppingboard.container.y = 528;
 			shoppingboard.Create_(1);
+			setFrame("shoppingboard", 1);
 			
+			state_parse([gameState.START_BET]);
 			//var itemdetail:MultiObject = create("itemdetail", ["Item_detail"], shoppingboard.container);
 			//itemdetail.Posi_CustzmiedFun = _regular.Posi_Colum_first_Setting;
 			//itemdetail.Post_CustomizedData = [20, 0, 74];
 			//itemdetail.container.x = 20.95;
 			//itemdetail.container.y = 48.35;			
 			//itemdetail.Create_(5);
+			
+		}
+		
+		override public function appear():void
+		{
+			setFrame("stock_chat", 2);
+			var date:Array = []
+			for (var i:int = 0; i < 100; i++)
+			{
+				date.push([ i*5,  utilFun.Random(50)  * (utilFun.Random(2) *2-1)   ]);
+			}
+			var stock:MultiObject = Get("stock_chat");
+			//以昨日收盤價為中點 
+			stock.CustomizedData =  date;// [[40, 30], [50, -50], [60, 30], [90, -50], [100, 40]];
+			stock.CustomizedFun = mystockchat;
+			stock.FlushObject();
 			
 		}
 		

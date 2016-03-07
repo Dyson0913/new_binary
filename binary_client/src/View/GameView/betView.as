@@ -114,7 +114,7 @@ package View.GameView
 			
 			
 			_debug_tool.init();
-				_theme.init();
+			_theme.init();
 			_Version.init();
 			
 			_FinancialGraph.init();
