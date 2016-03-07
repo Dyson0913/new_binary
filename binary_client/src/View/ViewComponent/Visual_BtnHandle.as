@@ -11,7 +11,7 @@ package View.ViewComponent
 	import View.Viewutil.*;
 	import Res.ResName;
 	import caurina.transitions.Tweener;
-	
+	import View.GameView.gameState;
 	/**
 	 * btn handle present way
 	 * @author ...
@@ -69,6 +69,8 @@ package View.ViewComponent
 			title_text_container.Create_(5);
 			
 			put_to_lsit(title_text_container);
+			
+			state_parse([gameState.START_BET]);
 		}		
 		
 		//public function scal(mc:MovieClip, idx:int, data:Array):void

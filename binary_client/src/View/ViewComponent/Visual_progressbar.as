@@ -17,6 +17,7 @@ package View.ViewComponent
 	import Res.ResName;
 	import caurina.transitions.Tweener;	
 	import flash.utils.setInterval;
+	import View.GameView.gameState;
 	/**
 	 * betzone present way
 	 * @author ...
@@ -109,6 +110,7 @@ package View.ViewComponent
 			progress_sec_pull_container.Posi_CustzmiedFun = _regular.Posi_xy_Setting;
 			progress_sec_pull_container.Post_CustomizedData = [[0, 0], [0, 265] ];
 			progress_sec_pull_container.CustomizedFun = pullbar_sec_init;			
+			progress_sec_pull_container.CustomizedData = [];			
 			progress_sec_pull_container.container.x = 148;
 			progress_sec_pull_container.container.y = 52;
 			progress_sec_pull_container.Create_(1);
@@ -191,7 +193,7 @@ package View.ViewComponent
 			_regular.Twinkle_by_loopFrame(pullhand.ItemList[0], 3, 2, 2);
 			put_to_lsit(pullhand);
 			
-			
+			state_parse([gameState.START_BET]);
 		}		
 		
 		public function now_price_init(mc:MovieClip, idx:int, data:Array):void

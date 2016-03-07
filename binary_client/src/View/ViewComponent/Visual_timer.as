@@ -23,8 +23,6 @@ package View.ViewComponent
 		
 		[Inject]
 		public var _progressbar:Visual_progressbar;
-		//TODO intgergreat
-		public const _Timer:String = "countDowntimer";
 		
 		//res		
 		public const timebar:String = "time_bar";
@@ -44,25 +42,15 @@ package View.ViewComponent
 		}
 		
 		public function init():void
-		{
-			var countDown:MultiObject = create(_Timer,[_Timer]);
-			countDown.Create_(1);
-			countDown.container.x = 1188;
-			countDown.container.y = 528;
-		   
-			put_to_lsit(countDown);
-		   
-		   
+		{			 
 			var time_bar_container:MultiObject = create("time_bar_container", [ResName.emptymc]);			
 			time_bar_container.CustomizedFun = time_init;			
+			time_bar_container.CustomizedData = [];
 			time_bar_container.container.x = 490;
 			time_bar_container.container.y = 50;
 			time_bar_container.Create_(1);
 			
-			put_to_lsit(time_bar_container);	
-			
-		   
-		   disappear();
+			put_to_lsit(time_bar_container);			   
 		   
 		   Waring_sec = 7;
 		   
@@ -95,7 +83,7 @@ package View.ViewComponent
 		
 		override public function appear():void
 		{
-			setInterval(updatetimer, 1000, "time_", 0);
+			//setInterval(updatetimer, 1000, "time_", 0);
 			
 			//setFrame(Timer, 2);
 			//var time:int = _model.getValue(modelName.REMAIN_TIME);

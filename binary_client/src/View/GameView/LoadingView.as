@@ -84,17 +84,19 @@ package View.GameView
 			var view:MultiObject = prepare("_view", new MultiObject() , this);
 			view.Create_by_list(1, [ResName.emptymc], 0, 0, 1, 0, 0, "a_");
 					
-			//utilFun.SetTime(connet, 0.1);
+			utilFun.SetTime(connet, 0.1);
 			//_test.init();
-			dispatcher(new Intobject(modelName.Bet, ViewCommand.SWITCH) );
-			
-			_model.putValue(modelName.GAMES_STATE,gameState.START_BET);			
-			dispatcher(new ModelEvent("update_state"));
+		
 			
 		}
 		private function connet():void
 		{	
-			dispatcher( new WebSoketInternalMsg(WebSoketInternalMsg.CONNECT));
+				dispatcher(new Intobject(modelName.Bet, ViewCommand.SWITCH) );
+			
+			_model.putValue(modelName.GAMES_STATE,gameState.START_BET);			
+			dispatcher(new ModelEvent("update_state"));
+			
+			//dispatcher( new WebSoketInternalMsg(WebSoketInternalMsg.CONNECT));
 		}
 		
 		[MessageHandler(type = "Model.valueObject.Intobject",selector="LeaveView")]
