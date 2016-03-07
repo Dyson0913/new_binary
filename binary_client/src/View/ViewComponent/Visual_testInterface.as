@@ -109,6 +109,12 @@ package View.ViewComponent
 		[Inject]
 		public var _FinancialGraph:Visual_FinancialGraph;
 		
+		[Inject]
+		public var _page_arrow:Visual_page_arrow;
+		
+		[Inject]
+		public var _downlist:Visual_downList;	
+		
 		private var _pack:Array = [];
 		
 		[Inject]
@@ -180,13 +186,14 @@ package View.ViewComponent
 			
 			_theme.init();
 			_Version.init();
+			_downlist.init();
 			
 			_timer.init();
 			_btn.init();
 			_progressbar.init();
 			
 			_FinancialGraph.init();
-			
+			_page_arrow.init();
 			
 			
 			

@@ -13,7 +13,7 @@ package View.ViewComponent
 	import View.Viewutil.*;
 	import Res.ResName;
 	import caurina.transitions.Tweener;	
-	
+	import View.GameView.gameState;
 	
 	
 	/**
@@ -41,13 +41,11 @@ package View.ViewComponent
 		
 		public function init():void
 		{
-			var down_list_container:MultiObject = create("down_list_container", [ResName.emptymc]);			
-			down_list_container.CustomizedFun = down_init;
-			down_list_container.CustomizedData = ["TWSE", "NASDAQ","TPS","NYSE","SP500"];
+			var down_list_container:MultiObject = create("down_list_container", [ResName.emptymc]);	
 			down_list_container.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
 			down_list_container.Post_CustomizedData = [2, 500, 0];			
-			down_list_container.container.x = 240;
-			down_list_container.container.y = 110;
+			down_list_container.container.x = 70;
+			down_list_container.container.y = 180;
 			down_list_container.Create_(1);
 			
 			put_to_lsit(down_list_container);	
@@ -55,10 +53,18 @@ package View.ViewComponent
 			//control model
 			_model.putValue("down_list", [0,0]);
 		   
-			_model.putValue("down_select", 0 );
-		   disappear();		   
+			_model.putValue("down_select", 0 );		   
+		   
+		   state_parse([gameState.NEW_ROUND,gameState.START_BET,gameState.END_ROUND]);
 		}
 		
+		override public function appear():void
+		{
+			var down_list_container:MultiObject = Get("down_list_container");
+			down_list_container.CustomizedFun = down_init;
+			down_list_container.CustomizedData = ["TWSE", "NASDAQ", "TPS", "NYSE", "SP500"];
+			down_list_container.FlushObject();
+		}
 		
 		
 		public function down_init(mc:MovieClip, idx:int, data:Array):void
@@ -112,14 +118,15 @@ package View.ViewComponent
 				else
 				{
 					var mc:MovieClip = GetSingleItem(name + idx, i);
-					var bg:MovieClip = utilFun.GetClassByString(productitem_bg);					
-					bg.y = -5;
-					mc.addChildAt(bg,0);
+					var bg:MovieClip = utilFun.GetClassByString(productitem_bg);
+					bg.x = -9.65;
+					bg.y = -13.5;					
+					//mc.addChildAt(bg, 0);
+					//_tool.SetControlMc(bg);
+					//_tool.y = 100;
+					//add(_tool);
 				}
 			}
-			
-			
-			
 			
 			put_to_lsit(ob_cotainer);	
 		}
@@ -136,7 +143,7 @@ package View.ViewComponent
 			var contain_idx:int = get_Container_idx(e.currentTarget.name);
 			
 			var mu:MultiObject = Get("down_list" + contain_idx.toString());
-			var _diff:Number = 52;
+			var _diff:Number = 63;
 			var open:Array = _model.getValue("down_list");
 			if ( open[contain_idx] == 0) 
 			{
@@ -160,7 +167,8 @@ package View.ViewComponent
 				var taget_childIdx:int = mu.container.getChildIndex(mu.ItemList[idx]);				
 				mu.order_switch(taget_childIdx, mu.ItemList.length - 1);
 				
-				_FinancialGraph.reset_chat();
+				//TODO chat init
+				//_FinancialGraph.reset_chat();
 			}
 			
 			

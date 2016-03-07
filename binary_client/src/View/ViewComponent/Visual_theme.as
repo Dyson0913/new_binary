@@ -2,6 +2,7 @@ package View.ViewComponent
 {	
 	import flash.display.MovieClip;
 	import flash.events.Event;
+	import Model.ModelEvent;
 	import View.ViewBase.VisualHandler;
 	import View.Viewutil.*;
 	import util.*;
@@ -33,7 +34,7 @@ package View.ViewComponent
 			
 			put_to_lsit(theme);
 			
-			//Zonetitle
+			//上方切換頁籤
 			var Zonetitle:MultiObject = create("Zonetitle", ["clip_1","clip_2","clip_3"]);
 			Zonetitle.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
 			Zonetitle.Post_CustomizedData = [3,256,0];
@@ -42,6 +43,15 @@ package View.ViewComponent
 			Zonetitle.Create_(3);
 			
 			put_to_lsit(Zonetitle);
+			
+			var arrow:MultiObject = create("arrow", ["arrow_left", "arrow_right"]);
+			arrow.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
+			arrow.Post_CustomizedData = [2,1826,0];
+			arrow.container.x = 1.1;
+			arrow.container.y =593.35
+			arrow.Create_(2);
+			
+			put_to_lsit(arrow);
 			
 			state_parse([gameState.NEW_ROUND]);
 		}
@@ -68,6 +78,12 @@ package View.ViewComponent
 			
 			//底圖切換
 			setFrame("theme", idx+1);
+			
+			//狀態切換
+			if ( idx == 0) _model.putValue(modelName.GAMES_STATE,gameState.NEW_ROUND);
+			else if ( idx == 1) _model.putValue(modelName.GAMES_STATE,gameState.START_BET);
+			else if ( idx == 2) _model.putValue(modelName.GAMES_STATE,gameState.END_ROUND);
+			dispatcher(new ModelEvent("update_state"));
 			
 			return false;
 		}
