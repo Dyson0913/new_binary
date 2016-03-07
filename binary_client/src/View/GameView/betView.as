@@ -112,6 +112,9 @@ package View.GameView
 			var view:MultiObject = prepare("_view", new MultiObject() , this);
 			view.Create_by_list(1, [ResName.Bet_Scene], 0, 0, 1, 0, 0, "a_");	
 			
+			
+			_debug_tool.init();
+				_theme.init();
 			_Version.init();
 			
 			_FinancialGraph.init();
@@ -119,6 +122,8 @@ package View.GameView
 			_btn.init();
 			_progressbar.init();
 			
+			
+			_theme.debug();
 			//dispatcher(new StringObject("Soun_Bet_BGM","Music" ) );
 		}
 		
