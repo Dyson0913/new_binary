@@ -73,6 +73,11 @@ package View.ViewComponent
 			
 		}
 		
+		override public function disappear():void
+		{
+			setFrame("stock_chat", 1);
+		}
+		
 		public function mystockchat(mc:MovieClip, idx:int, data:Array):void
 		{			
 			var graph:MovieClip =  utilFun.GetClassByString("View.ViewComponent.FinancialGraph");

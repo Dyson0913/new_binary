@@ -1,6 +1,7 @@
 package View.ViewComponent 
 {	
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import View.ViewBase.VisualHandler;
 	import View.Viewutil.*;
 	import util.*;
@@ -42,17 +43,33 @@ package View.ViewComponent
 			
 			put_to_lsit(Zonetitle);
 			
-			state_parse([gameState.NEW_ROUND,gameState.NEW_ROUND]);
+			state_parse([gameState.NEW_ROUND]);
 		}
 		
 		override public function appear():void
 		{	
-			GetSingleItem("theme").gotoAndStop(1);
+			setFrame("theme",1)			
 			
 			GetSingleItem("Zonetitle", 0).gotoAndStop(2);			
 			
+			var Zonetitle:MultiObject = Get("Zonetitle");
+			Zonetitle.MouseFrame = utilFun.Frametype(MouseBehavior.Customized, [0, 0, 2, 0]);
+			Zonetitle.mousedown = clip_change;			
+			Zonetitle.FlushObject();
 			//more and more
 			//  xxx. setting ....
+		}
+		
+		public function clip_change(e:Event, idx:int):Boolean
+		{			
+			// tag 變化
+			setFrame("Zonetitle", 1);
+			GetSingleItem("Zonetitle", idx).gotoAndStop(2);
+			
+			//底圖切換
+			setFrame("theme", idx+1);
+			
+			return false;
 		}
 		
 		override public function disappear():void

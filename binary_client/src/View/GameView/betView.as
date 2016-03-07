@@ -117,10 +117,12 @@ package View.GameView
 			_theme.init();
 			_Version.init();
 			
-			_FinancialGraph.init();
 			_timer.init();
 			_btn.init();
 			_progressbar.init();
+			
+			_FinancialGraph.init();
+			
 			
 			
 			_theme.debug();

@@ -106,6 +106,9 @@ package View.ViewComponent
 		[Inject]
 		public var _Version:Visual_Version;
 		
+		[Inject]
+		public var _FinancialGraph:Visual_FinancialGraph;
+		
 		private var _pack:Array = [];
 		
 		[Inject]
@@ -176,28 +179,18 @@ package View.ViewComponent
 			_Version.init();
 			
 			_theme.init();
-			_gameinfo.init();			
-			_hint.init();
-			_HistoryRecoder.init();
+			_Version.init();
+			
 			_timer.init();
-			//_progressbar.init();
-			_poker.init();			
-				//
-			_betzone.init();
-			_coin_stack.init();
-			_coin.init();
-			_sencer.init();
-			_settle_panel.init();
-			_betTimer.init();
-			//
-			//
-			_paytable.init();
-			//_btn.init();
-			_Bigwin_Effect.init();
+			_btn.init();
+			_progressbar.init();
+			
+			_FinancialGraph.init();
 			
 			
 			
-			_Version.debug();
+			
+			//_Version.debug();
 			_model.putValue("test_init",true);
 		}
 		

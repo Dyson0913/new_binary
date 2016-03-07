@@ -606,7 +606,8 @@ package View.ViewComponent
 			
 			
 			//Log("time ad = " + per_unit );				
-			GetSingleItem("time_" + "0", 2)["_text"].text =  "  To  " + time_format.get_time("MM / dd  hh:mm", days, hour, min);
+			//TODO  wait to start BET
+			//GetSingleItem("time_" + "0", 2)["_text"].text =  "  To  " + time_format.get_time("MM / dd  hh:mm", days, hour, min);
 		}
 		
 		private function remove_listen(idx:int):void
