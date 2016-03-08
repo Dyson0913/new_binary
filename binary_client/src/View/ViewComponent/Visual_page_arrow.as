@@ -33,7 +33,7 @@ package View.ViewComponent
 			arrow.container.y = 593.35;
 			arrow.Create_(2);
 			
-			put_to_lsit(arrow);
+			//put_to_lsit(arrow);
 			
 			_pageModel = new PageStyleModel();
 			_pageModel.UpDateModel(["歐元","美元","英鎊","加幣","日元","韓元","港幣","新台幣","人民幣","比特幣","新加坡幣"], 11);	

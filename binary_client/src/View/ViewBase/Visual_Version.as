@@ -35,7 +35,7 @@ package View.ViewBase
 			version_container.container.y = 1060;
 			version_container.Create_(1);
 			
-			put_to_lsit(version_container);
+			//put_to_lsit(version_container);
 		}
 		
 		public function version_init(mc:MovieClip, idx:int, data:Array):void

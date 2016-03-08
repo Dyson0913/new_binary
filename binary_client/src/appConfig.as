@@ -64,6 +64,7 @@ package
 		public var _FinancialGraph:Visual_FinancialGraph = new Visual_FinancialGraph();
 		public var _page_arrow:Visual_page_arrow = new Visual_page_arrow();
 		public var _Item_list:Visual_Item_list = new Visual_Item_list();
+		public var _ticket_binary:Visual_ticket_binary = new Visual_ticket_binary();
 		
 		//test
 		public var _test:Visual_testInterface = new Visual_testInterface();

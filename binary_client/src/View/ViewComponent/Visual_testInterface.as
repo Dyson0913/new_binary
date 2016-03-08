@@ -77,6 +77,9 @@ package View.ViewComponent
 		public var _Item_list:Visual_Item_list;
 		
 		[Inject]
+		public var _ticket_binary:Visual_ticket_binary;
+		
+		[Inject]
 		public var _downlist:Visual_downList;	
 		
 		private var _pack:Array = [];
@@ -143,21 +146,24 @@ package View.ViewComponent
 			if ( _model.getValue("test_init")) return;
 			changeBG(ResName.Bet_Scene);
 			
-			_Version.init();
+			_Version.init();			
 			
+			//share
 			_theme.init();
-			_Version.init();
-			_downlist.init();
-			
-			
-			
-			_progressbar.init();
-			_btn.init();
-			
-			_FinancialGraph.init();
 			_page_arrow.init();
+			
+			//stage 1
 			_Item_list.init();
+			
+			//stage 2
+			_downlist.init();
+			_progressbar.init();
+			_btn.init();			
+			_FinancialGraph.init();			
 			_timer.init();
+			
+			//stage 3
+			_ticket_binary.init();
 			
 			_Version.debug();
 			_model.putValue("test_init",true);

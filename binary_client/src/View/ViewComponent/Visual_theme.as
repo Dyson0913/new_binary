@@ -32,7 +32,7 @@ package View.ViewComponent
 			theme.container.y = 255.7;
 			theme.Create_(1);
 			
-			put_to_lsit(theme);
+			//put_to_lsit(theme);
 			
 			//上方切換頁籤
 			var Zonetitle:MultiObject = create("Zonetitle", ["clip_1","clip_2","clip_3"]);
@@ -42,7 +42,7 @@ package View.ViewComponent
 			Zonetitle.container.y = 83.35;
 			Zonetitle.Create_(3);
 			
-			put_to_lsit(Zonetitle);
+			//put_to_lsit(Zonetitle);
 			
 			var arrow:MultiObject = create("arrow", ["arrow_left", "arrow_right"]);
 			arrow.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
@@ -51,7 +51,7 @@ package View.ViewComponent
 			arrow.container.y =593.35
 			arrow.Create_(2);
 			
-			put_to_lsit(arrow);
+			//put_to_lsit(arrow);
 			
 			state_parse([gameState.NEW_ROUND]);
 		}

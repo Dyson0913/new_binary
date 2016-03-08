@@ -41,7 +41,7 @@ package View.ViewComponent
 			stockchat.container.y = 318;
 			setFrame("stage_1_stock", 1);
 			
-			put_to_lsit(stockchat);
+			//put_to_lsit(stockchat);
 			
 			var font:Array = [ { size:24, align:_text.align_center,bold:true, color:0xFFFFFF } ];			
 			font = font.concat(_model.getValue("current_list"));
@@ -54,7 +54,7 @@ package View.ViewComponent
 			item_name.container.x = -86;
 			item_name.container.y = 596;
 			
-			put_to_lsit(item_name);
+			//put_to_lsit(item_name);
 			
 			var stage_btn:MultiObject = create("stage_1_btn", ["stage_1_btn"] );	
 			stage_btn.MouseFrame = utilFun.Frametype(MouseBehavior.Customized, [0, 0, 3, 2]);
@@ -64,7 +64,7 @@ package View.ViewComponent
 			stage_btn.container.x = 367;
 			stage_btn.container.y = 578;
 			
-			put_to_lsit(stage_btn);
+			//put_to_lsit(stage_btn);
 			
 			state_parse([gameState.NEW_ROUND]);
 			
