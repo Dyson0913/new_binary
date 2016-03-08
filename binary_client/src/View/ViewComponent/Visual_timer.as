@@ -18,8 +18,7 @@ package View.ViewComponent
 	 * @author Dyson0913
 	 */
 	public class Visual_timer  extends VisualHandler
-	{
-		public const Timer:String = "countDowntimer";
+	{		
 		
 		[Inject]
 		public var _progressbar:Visual_progressbar;
@@ -109,66 +108,12 @@ package View.ViewComponent
 		
 		override public function disappear():void
 		{	
-			setFrame(Timer, 1);			
+			
 		}
-		
-		private function TimeCount():void
-		{			
-			var time:int  = _opration.operator(modelName.REMAIN_TIME, DataOperation.sub, 1);
-			if ( time < 0) 
-			{
-				return;
-			}
-			if ( time <= Waring_sec ) play_sound("sound_final");
-			
-			if (time == 0) {
-				//注區停止押注
-				var betzone:MultiObject = Get("betzone_s");
-				betzone.mousedown = null;
-				betzone.mouseup = null;
-				betzone.rollout = null;
-				betzone.rollover = null;
-			
-				 //停止上一個timer
-				var preTimerIdx:int = 1
-				
-				utilFun.Log("preTimerIdx:" + preTimerIdx);
-			
-				//送出最後一張還在計時的注單
-				if (preTimerIdx > -1 ) {
-					//hide取消鈕
-					GetSingleItem("coin_cancel", preTimerIdx).visible = false;
-				//	_betCommand.sendBet(preTimerIdx);
-				}
-			}
-			
-			frame_setting_way(time);			
-		}
-		
-		public function frame_setting_way(time:int):void
-		{
-			var arr:Array = utilFun.arrFormat(time, 2);
-			if ( arr[0] == 0 ) arr[0] = 10;
-			if ( arr[1] == 0 ) arr[1] = 10;
-			GetSingleItem(Timer)["_num_0"].gotoAndStop(arr[0]);
-			GetSingleItem(Timer)["_num_1"].gotoAndStop(arr[1]);
-		}		
 		
 		override public function test_suit():void
 		{
-			var state:int = _model.getValue(modelName.GAMES_STATE);
-			if ( state == gameState.START_BET )
-			{
-				test_frame_Not_equal( GetSingleItem(Timer) , 2);	
-			}
-			else if ( state != 0)
-			{
-				test_frame_Not_equal( GetSingleItem(Timer) , 1);	
-			}
-			else
-			{
-				Log("Visual_timer not  handle");
-			}
+		
 		}
 	}
 

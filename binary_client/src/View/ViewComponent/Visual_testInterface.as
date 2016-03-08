@@ -44,37 +44,10 @@ package View.ViewComponent
 		public var _MsgModel:MsgQueue;		
 		
 		[Inject]
-		public var _gameinfo:Visual_Game_Info;
-		
-		[Inject]
-		public var _hint:Visual_Hintmsg;
-		
-		[Inject]
 		public var _timer:Visual_timer;
 		
 		[Inject]
-		public var _poker:Visual_poker;
-		
-		[Inject]
-		public var _betzone:Visual_betZone;	
-		
-		[Inject]
-		public var _coin:Visual_Coin;
-		
-		[Inject]
-		public var _sencer:Visual_betZone_Sence;
-		
-		[Inject]
-		public var _coin_stack:Visual_Coin_stack;
-		
-		[Inject]
-		public var _settle:Visual_Settle;	
-		
-		[Inject]
 		public var _btn:Visual_BtnHandle;
-		
-		[Inject]
-		public var _settle_panel:Visual_SettlePanel;
 		
 		[Inject]
 		public var _debug:Visual_debugTool;
@@ -83,16 +56,10 @@ package View.ViewComponent
 		public var _replayer:Visual_package_replayer;
 		
 		[Inject]
-		public var _loader:Visual_Loder;
-		
-		[Inject]
 		public var _progressbar:Visual_progressbar;
 		
 		[Inject]
 		public var _fileStream:fileStream;
-		
-		[Inject]
-		public var _Bigwin_Effect:Visual_Bigwin_Effect;
 		
 		[Inject]
 		public var _theme:Visual_theme;
@@ -113,9 +80,6 @@ package View.ViewComponent
 		public var _downlist:Visual_downList;	
 		
 		private var _pack:Array = [];
-		
-		[Inject]
-		public var _betTimer:Visual_betTimer;
 		
 		public function Visual_testInterface() 
 		{
@@ -201,26 +165,9 @@ package View.ViewComponent
 		public function view_test():void
 		{			
 			
-			_theme.test_suit();
-			_hint.test_suit();
-			_timer.test_suit();			
-			//_progressbar.init();
-			_poker.test_suit();
-				//
-			//_betzone.init();
-			//_coin_stack.init();
-			//_coin.init();
-			//_sencer.init();
-			//_settle_panel.init();
-			//
-			//
-			//_paytable.init();
-			//_btn.init();
-			//_Bigwin_Effect.init();
+			_theme.test_suit();			
+			_timer.test_suit();	
 			
-			
-			
-			//_btn.debug();
 			//_model.putValue("test_init",true);
 		}
 		

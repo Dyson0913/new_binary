@@ -32,52 +32,19 @@ package View.GameView
 		public var _betCommand:BetCommand;
 		
 		[Inject]
-		public var _poker:Visual_poker;
-		
-		[Inject]
 		public var _timer:Visual_timer;
-		
-		[Inject]
-		public var _hint:Visual_Hintmsg;
-		
-		[Inject]
-		public var _betzone:Visual_betZone;
-		
-		[Inject]
-		public var _coin:Visual_Coin;
-	
-		[Inject]
-		public var _settle:Visual_Settle;
 		
 		[Inject]
 		public var _btn:Visual_BtnHandle;
 		
 		[Inject]
-		public var _sencer:Visual_betZone_Sence;
-		
-		[Inject]
-		public var _gameinfo:Visual_Game_Info;
-		
-		[Inject]
-		public var _coin_stack:Visual_Coin_stack;
-		
-		[Inject]
-		public var _settle_panel:Visual_SettlePanel;
-		
-		[Inject]
 		public var _progressbar:Visual_progressbar;
-		
-		[Inject]
-		public var _Bigwin_Effect:Visual_Bigwin_Effect;
 		
 		[Inject]
 		public var _theme:Visual_theme;
 		
 		[Inject]
 		public var _Version:Visual_Version;
-		
-		[Inject]
-		public var _betTimer:Visual_betTimer;
 		
 		[Inject]
 		public var _downlist:Visual_downList;	

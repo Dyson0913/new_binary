@@ -53,24 +53,12 @@ package
 		public var _replayer:Visual_package_replayer = new Visual_package_replayer();
 		public var _Version:Visual_Version = new Visual_Version();
 		
-		//visual
-		public var _pokerhandler:Visual_poker = new Visual_poker();
-		public var _timer:Visual_timer = new Visual_timer();
-		public var _hint:Visual_Hintmsg = new Visual_Hintmsg();		
-		public var _coin:Visual_Coin = new Visual_Coin();
-		public var _coin_stack:Visual_Coin_stack = new Visual_Coin_stack();
-		public var _betzone:Visual_betZone = new Visual_betZone();
-		public var _loader:Visual_Loder = new Visual_Loder();
-		public var _btn:Visual_BtnHandle = new Visual_BtnHandle();
-		public var _settle:Visual_Settle = new Visual_Settle();
-		public var _sencer:Visual_betZone_Sence = new Visual_betZone_Sence();
-		public var _gameinfo:Visual_Game_Info = new Visual_Game_Info();
-		public var _text:Visual_Text = new Visual_Text();
-		public var _settle_panel:Visual_SettlePanel = new Visual_SettlePanel();		
-		public var _progressbar:Visual_progressbar = new Visual_progressbar();
-		public var _Bigwin_Effect:Visual_Bigwin_Effect = new Visual_Bigwin_Effect();
-		public var _theme:Visual_theme = new Visual_theme();
-		public var _betTimer:Visual_betTimer = new Visual_betTimer();
+		//visual		
+		public var _timer:Visual_timer = new Visual_timer();				
+		public var _btn:Visual_BtnHandle = new Visual_BtnHandle();		
+		public var _text:Visual_Text = new Visual_Text();		
+		public var _progressbar:Visual_progressbar = new Visual_progressbar();		
+		public var _theme:Visual_theme = new Visual_theme();		
 		
 		public var _downList:Visual_downList = new Visual_downList();
 		public var _FinancialGraph:Visual_FinancialGraph = new Visual_FinancialGraph();
