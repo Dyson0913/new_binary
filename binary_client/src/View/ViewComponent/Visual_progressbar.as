@@ -87,15 +87,15 @@ package View.ViewComponent
 			_isContinue_mode = true;
 			
 			var title:MultiObject = create("progresstitle", [progresstitle]);			
-			title.container.x = 738.8;
-			title.container.y = 187.40;			
+			title.container.x = 708.8;
+			title.container.y = 264.4;			
 			title.Create_(1);
 			
 			put_to_lsit(title);	
 			
 			var progress_container:MultiObject = create("progress_container", [ResName.emptymc],title.container);
-			progress_container.Posi_CustzmiedFun = _regular.Posi_Colum_first_Setting;
-			progress_container.Post_CustomizedData = [3, 0, 265];
+			progress_container.Posi_CustzmiedFun = _regular.Posi_xy_Setting;
+			progress_container.Post_CustomizedData = [[0, 0] , [0, 275], [0, 500]];
 			progress_container.CustomizedFun = obinit;
 			progress_container.CustomizedData = [[3, 2], [1, 4], [1, 2]];
 			progress_container.container.x = 160;
@@ -132,7 +132,7 @@ package View.ViewComponent
 			
 			var progress_pull_container:MultiObject = create("progress_pull_container", [ResName.emptymc],title.container);
 			progress_pull_container.Posi_CustzmiedFun = _regular.Posi_xy_Setting;
-			progress_pull_container.Post_CustomizedData = [[0, 0], [0, 265] ,[0, 530]];
+			progress_pull_container.Post_CustomizedData = [[0, 0], [0, 279] ,[0, 507]];
 			progress_pull_container.CustomizedFun = pullbar_init;
 			progress_pull_container.CustomizedData =  [_Pull_bar_centrol_point, 0, 0];	
 			progress_pull_container.container.x = 148;

@@ -42,8 +42,8 @@ package View.ViewComponent
 		public function init():void
 		{
 			var down_list_container:MultiObject = create("down_list_container", [ResName.emptymc]);	
-			down_list_container.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
-			down_list_container.Post_CustomizedData = [2, 500, 0];			
+			//down_list_container.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
+			//down_list_container.Post_CustomizedData = [2, 500, 0];			
 			down_list_container.container.x = 70;
 			down_list_container.container.y = 180;
 			down_list_container.Create_(1);

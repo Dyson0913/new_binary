@@ -34,26 +34,32 @@ package View.ViewComponent
 			
 			var stockchat:MultiObject = create("stock_chat",["stock_chat"] );			
 			stockchat.Create_(1);
-			stockchat.container.x = 30;
-			stockchat.container.y = 188;
+			stockchat.container.x = 50;
+			stockchat.container.y = 276;
 			setFrame("stock_chat", 1);
 			
 			put_to_lsit(stockchat);
 			
 			//購買清單
 			var shoppingboard:MultiObject = create("shoppingboard", ["shopping_board"] );
-			shoppingboard.container.x = 30;
-			shoppingboard.container.y = 528;
+			shoppingboard.container.x = 50;
+			shoppingboard.container.y = 578;
 			shoppingboard.Create_(1);
 			setFrame("shoppingboard", 1);
 			
+			put_to_lsit(shoppingboard);
+			
+			var itemdetail:MultiObject = create("itemdetail", ["Item_detail"], shoppingboard.container);
+			itemdetail.Posi_CustzmiedFun = _regular.Posi_Colum_first_Setting;
+			itemdetail.Post_CustomizedData = [20, 0, 74];
+			itemdetail.container.x = 9.9;
+			itemdetail.container.y = 69.35;			
+			itemdetail.Create_(5);
+			
+			put_to_lsit(itemdetail);
+			
 			state_parse([gameState.START_BET]);
-			//var itemdetail:MultiObject = create("itemdetail", ["Item_detail"], shoppingboard.container);
-			//itemdetail.Posi_CustzmiedFun = _regular.Posi_Colum_first_Setting;
-			//itemdetail.Post_CustomizedData = [20, 0, 74];
-			//itemdetail.container.x = 20.95;
-			//itemdetail.container.y = 48.35;			
-			//itemdetail.Create_(5);
+			
 			
 		}
 		
@@ -71,19 +77,30 @@ package View.ViewComponent
 			stock.CustomizedFun = mystockchat;
 			stock.FlushObject();
 			
+			
+			setFrame("shoppingboard", 2);
+			
+			var itemdetail:MultiObject = Get("itemdetail");
+			itemdetail.container.visible = true;
 		}
 		
 		override public function disappear():void
 		{
+			clean_child("stock_chat");
 			setFrame("stock_chat", 1);
+			
+			setFrame("shoppingboard", 1);
+			
+			var itemdetail:MultiObject = Get("itemdetail");
+			itemdetail.container.visible = false;
 		}
 		
 		public function mystockchat(mc:MovieClip, idx:int, data:Array):void
 		{			
 			var graph:MovieClip =  utilFun.GetClassByString("View.ViewComponent.FinancialGraph");
 			var chat:FinancialGraph  = graph as FinancialGraph;
-			chat.x = 59;
-			chat.y = 32;
+			chat.x = 39;
+			chat.y = 14;
 			chat._newdate = data;
 			chat.setSize(600, 250, 0x80ffff);				
 			chat.name = "chat";

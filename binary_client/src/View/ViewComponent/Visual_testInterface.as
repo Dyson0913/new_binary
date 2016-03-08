@@ -149,16 +149,17 @@ package View.ViewComponent
 			_Version.init();
 			_downlist.init();
 			
-			_timer.init();
-			_btn.init();
+			
+			
 			_progressbar.init();
+			_btn.init();
 			
 			_FinancialGraph.init();
 			_page_arrow.init();
 			_Item_list.init();
+			_timer.init();
 			
-			
-			//_Version.debug();
+			_Version.debug();
 			_model.putValue("test_init",true);
 		}
 		
