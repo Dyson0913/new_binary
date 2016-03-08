@@ -65,8 +65,6 @@ package
 		public var _settle:Visual_Settle = new Visual_Settle();
 		public var _sencer:Visual_betZone_Sence = new Visual_betZone_Sence();
 		public var _gameinfo:Visual_Game_Info = new Visual_Game_Info();
-		public var _HistoryRecoder:Visual_HistoryRecoder = new Visual_HistoryRecoder();		
-		public var _paytable:Visual_Paytable = new Visual_Paytable();
 		public var _text:Visual_Text = new Visual_Text();
 		public var _settle_panel:Visual_SettlePanel = new Visual_SettlePanel();		
 		public var _progressbar:Visual_progressbar = new Visual_progressbar();
@@ -77,6 +75,7 @@ package
 		public var _downList:Visual_downList = new Visual_downList();
 		public var _FinancialGraph:Visual_FinancialGraph = new Visual_FinancialGraph();
 		public var _page_arrow:Visual_page_arrow = new Visual_page_arrow();
+		public var _Item_list:Visual_Item_list = new Visual_Item_list();
 		
 		//test
 		public var _test:Visual_testInterface = new Visual_testInterface();

@@ -99,7 +99,7 @@ package View.ViewComponent
 			var mu:MultiObject =  Get("stock_chat");
 			var mc:MovieClip = 	GetSingleItem("stock_chat");
 			var ch:MovieClip = mc.getChildByName("chat") as MovieClip;
-			utilFun.Clear_ItemChildren(ch);
+			utilFun.Clear_ItemChildren(mc);
 			var graph:MovieClip =  utilFun.GetClassByString("View.ViewComponent.FinancialGraph");
 			var chat:FinancialGraph  = graph as FinancialGraph;
 			chat.x = 59;

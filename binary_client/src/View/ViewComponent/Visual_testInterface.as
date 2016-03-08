@@ -44,9 +44,6 @@ package View.ViewComponent
 		public var _MsgModel:MsgQueue;		
 		
 		[Inject]
-		public var _paytable:Visual_Paytable;
-		
-		[Inject]
 		public var _gameinfo:Visual_Game_Info;
 		
 		[Inject]
@@ -92,9 +89,6 @@ package View.ViewComponent
 		public var _progressbar:Visual_progressbar;
 		
 		[Inject]
-		public var _HistoryRecoder:Visual_HistoryRecoder;
-		
-		[Inject]
 		public var _fileStream:fileStream;
 		
 		[Inject]
@@ -111,6 +105,9 @@ package View.ViewComponent
 		
 		[Inject]
 		public var _page_arrow:Visual_page_arrow;
+		
+		[Inject]
+		public var _Item_list:Visual_Item_list;
 		
 		[Inject]
 		public var _downlist:Visual_downList;	
@@ -194,7 +191,7 @@ package View.ViewComponent
 			
 			_FinancialGraph.init();
 			_page_arrow.init();
-			
+			_Item_list.init();
 			
 			
 			//_Version.debug();
@@ -206,8 +203,7 @@ package View.ViewComponent
 			
 			_theme.test_suit();
 			_hint.test_suit();
-			_timer.test_suit();
-			_HistoryRecoder.test_suit();
+			_timer.test_suit();			
 			//_progressbar.init();
 			_poker.test_suit();
 				//

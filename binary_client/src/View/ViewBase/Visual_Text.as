@@ -53,6 +53,12 @@ package View.ViewBase
 			mc.addChild(str);
 		}
 		
+		public function text_update(mc:MovieClip, idx:int, data:Array):void
+		{
+			var Text:TextField = mc.getChildByName("Dy_Text") as TextField;
+			Text.text = data[idx];
+		}
+		
 		public function colortextSetting(mc:MovieClip, idx:int, data:Array):void
 		{			
 			var textColor:uint = 0xFFFFFF;

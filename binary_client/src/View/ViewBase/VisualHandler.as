@@ -114,6 +114,27 @@ package View.ViewBase
 			}
 		}
 		
+		protected function setText(name:*, st:String):void
+		{
+			var a:MultiObject = Get(name);
+			for ( var i:int = 0; i <  a.ItemList.length; i++)
+			{				
+				GetSingleItem(name, i).getChildByName("Dy_Text").text = st;
+			}
+		}
+		
+		protected function clean_child(name:*, child_name:String =""):void
+		{
+			var a:MultiObject = Get(name);
+			for ( var i:int = 0; i <  a.ItemList.length; i++)
+			{	
+				var ch:MovieClip;
+				if ( child_name == "") ch = GetSingleItem(name, i);
+				else ch = GetSingleItem(name, i).getChildByName(child_name) as MovieClip;
+				utilFun.Clear_ItemChildren(ch);
+			}			
+		}
+		
 		public function empty_reaction(e:Event, idx:int):Boolean
 		{			
 			return true;

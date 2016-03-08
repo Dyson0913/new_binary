@@ -59,16 +59,10 @@ package View.GameView
 		public var _gameinfo:Visual_Game_Info;
 		
 		[Inject]
-		public var _paytable:Visual_Paytable;
-		
-		[Inject]
 		public var _coin_stack:Visual_Coin_stack;
 		
 		[Inject]
 		public var _settle_panel:Visual_SettlePanel;
-		
-		[Inject]
-		public var _HistoryRecoder:Visual_HistoryRecoder;
 		
 		[Inject]
 		public var _progressbar:Visual_progressbar;

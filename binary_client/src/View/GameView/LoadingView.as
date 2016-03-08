@@ -68,7 +68,7 @@ package View.GameView
 			state.putValue("EndRoundState", gameState.END_ROUND);			
 			_model.putValue("state_mapping", state);
 			
-			
+			_model.putValue("current_list", ["歐元", "美元", "英鎊", "加幣", "日元", "韓元", "港幣", "新台幣", "人民幣", "比特幣", "新加坡幣"]);
 			_model.putValue("result_Pai_list", []);
 			
 			_model.putValue("game_round", 1);
