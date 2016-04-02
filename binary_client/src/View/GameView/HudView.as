@@ -9,8 +9,9 @@ package View.GameView
 	import View.Viewutil.MouseBehavior;;
 	import Model.*;
 	import util.utilFun;
+	import View.Viewutil.MultiObject;
 	import View.Viewutil.Visual_package_replayer;
-	
+	import Res.ResName;
 	/**
 	 * ...
 	 * @author hhg
@@ -31,9 +32,12 @@ package View.GameView
 			if (View.Value != modelName.Hud) return;
 			
 			_replayer.init();
+			
+			
 		}
 		
-	
+		
+
 		
 		[MessageHandler(type = "Model.valueObject.Intobject",selector="LeaveView")]
 		override public function ExitView(View:Intobject):void

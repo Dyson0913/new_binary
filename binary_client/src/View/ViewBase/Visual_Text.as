@@ -47,8 +47,12 @@ package View.ViewBase
 		}
 		
 		public function textSetting(mc:MovieClip, idx:int, data:Array):void
-		{						
-			var str:TextField = dynamic_text(data[idx + 1], data[0]);			
+		{	
+			var s:String; 
+			if ( data[idx + 1] == undefined) s = "";
+			else s =  data[idx + 1];
+			
+			var str:TextField = dynamic_text(s, data[0]);			
 			str.name = "Dy_Text";
 			mc.addChild(str);
 		}
@@ -71,6 +75,12 @@ package View.ViewBase
 			mc.addChild(str);
 		}
 		
+		public function color_update(mc:MovieClip, idx:int, data:Array):void
+		{
+			var Text:TextField = mc.getChildByName("Dy_Text") as TextField;			
+			Text.textColor = data[idx];			
+		}
+		
 		public function dynamic_text(text:String,para:Object):TextField
 		{		
 			//utilFun.Log("para ="+para.size);
@@ -82,15 +92,16 @@ package View.ViewBase
 			if ( para["color"] != undefined)  textColor = para.color;
 			if( para["align"] != undefined)  align = para.align;
 			if( para["bold"] != undefined)  bold = para.bold;
-						
-			var _NickName:TextField = new TextField();
-			_NickName.width = 626.95;
-			_NickName.height = 134;
+			
+			var _NickName:TextField = new TextField();			
+			_NickName.width = 200;
+			_NickName.height = 50;
 			_NickName.textColor = textColor;
-			_NickName.selectable = false;		
+			_NickName.selectable = false;	
+			//_NickName.opaqueBackground = 0x999999;
 			//_NickName.autoSize = TextFieldAutoSize.LEFT;				
-			_NickName.wordWrap = true; //auto change line
-			_NickName.multiline = true; //multi line
+			//_NickName.wordWrap = true; //auto change line
+			//_NickName.multiline = true; //multi line
 			_NickName.maxChars = 300;
 			//"微軟正黑體"
 			var myFormat:TextFormat = new TextFormat();
@@ -100,7 +111,7 @@ package View.ViewBase
 			myFormat.font = "Microsoft JhengHei";			
 			
 			_NickName.defaultTextFormat = myFormat;				
-			_NickName.text = text;			
+			_NickName.text = text;
 			return _NickName;
 		}
 		

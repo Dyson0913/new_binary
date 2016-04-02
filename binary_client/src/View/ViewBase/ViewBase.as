@@ -11,6 +11,7 @@ package View.ViewBase
 	import View.Viewutil.AdjustTool;
 	import Interface.ViewComponentInterface;
 	import Command.*;
+	import View.Viewutil.MultiObject;
 	
 	/**
 	 * ...
@@ -67,10 +68,16 @@ package View.ViewBase
 			return null;
 		}
 		
-		protected function prepare(name:*, ob:ViewComponentInterface, container:DisplayObjectContainer = null):*
+		protected function create(name:*,resNameArr:Array, Stick_in_container:DisplayObjectContainer = null):*
 		{
-			ob.setContainer(new Sprite());
-			return utilFun.prepare(name,ob , _viewcom.currentViewDI , container);
+			if ( Stick_in_container == null) Stick_in_container = GetSingleItem("_view").parent.parent;
+			var ob:MultiObject = new MultiObject();
+			ob.resList = resNameArr;
+			
+			var sp:Sprite = new Sprite();
+			sp.name  = name;
+			ob.setContainer(sp);
+			return utilFun.prepare(name,ob , _viewcom.currentViewDI , Stick_in_container);
 		}
 		
 	}

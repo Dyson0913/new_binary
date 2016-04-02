@@ -5,6 +5,7 @@ package View.ViewComponent
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	import util.math.Value_Transfer;
 	import View.ViewBase.Visual_Text;
 	import View.ViewBase.VisualHandler;
 	import Model.valueObject.*;
@@ -23,9 +24,11 @@ package View.ViewComponent
 	 * @author ...
 	 */
 	public class Visual_progressbar  extends VisualHandler
-	{	
+	{
 		[Inject]
-		public var _betCommand:BetCommand;
+		public var _value_trans:Value_Transfer;
+		
+		
 		
 		private const bg:int = 0;
 		private const style:int = 1;		
@@ -59,10 +62,8 @@ package View.ViewComponent
 		private const btn:int = 2;
 		private const price:int = 3;
 		
-			//res
+		//res
 		public const expectvalue:String = "expect_value";		
-		//tag
-		private const value_tag:int = 0;
 		
 		public const basefont:String = "base_font";
         private const now_price:int = 0;
@@ -76,6 +77,12 @@ package View.ViewComponent
 		private var _adjust_range:Number = 100;
 		
 		private var _isContinue_mode:Boolean;
+		
+		//res
+		public const theme:String = "expectprofit_title";
+		
+		//res
+		public const panel_text:String = "expectprofit_text";
 		
 		public function Visual_progressbar() 
 		{
@@ -91,7 +98,7 @@ package View.ViewComponent
 			title.container.y = 264.4;			
 			title.Create_(1);
 			
-			put_to_lsit(title);	
+			//put_to_lsit(title);	
 			
 			var progress_container:MultiObject = create("progress_container", [ResName.emptymc],title.container);
 			progress_container.Posi_CustzmiedFun = _regular.Posi_xy_Setting;
@@ -102,7 +109,7 @@ package View.ViewComponent
 			progress_container.container.y = 110;
 			progress_container.Create_(3);
 			
-			put_to_lsit(progress_container);
+			//put_to_lsit(progress_container);
 			
 			_model.putValue("power_idx", [0, 0, 0]);
 			
@@ -115,7 +122,7 @@ package View.ViewComponent
 			progress_sec_pull_container.container.y = 52;
 			progress_sec_pull_container.Create_(1);
 			
-			put_to_lsit(progress_sec_pull_container);	
+			//put_to_lsit(progress_sec_pull_container);	
 			
 			//現價bar
 			var now_price_container:MultiObject = create("now_price_container", [ResName.emptymc],title.container);		
@@ -125,7 +132,7 @@ package View.ViewComponent
 			now_price_container.container.y = 180;
 			now_price_container.Create_(1);
 			
-			put_to_lsit(now_price_container);
+			//put_to_lsit(now_price_container);
 			
 			//setInterval(price_update, 5000,"now_price_",0);	
 			
@@ -134,15 +141,14 @@ package View.ViewComponent
 			progress_pull_container.Posi_CustzmiedFun = _regular.Posi_xy_Setting;
 			progress_pull_container.Post_CustomizedData = [[0, 0], [0, 279] ,[0, 507]];
 			progress_pull_container.CustomizedFun = pullbar_init;
-			progress_pull_container.CustomizedData =  [_Pull_bar_centrol_point, 0, 0];	
+			progress_pull_container.CustomizedData =  [_Pull_bar_centrol_point+10, 0, 0];	
 			progress_pull_container.container.x = 148;
 			progress_pull_container.container.y = 52;
 			progress_pull_container.Create_(3);
 			
-			put_to_lsit(progress_pull_container);	
-			
-			//disappear();
-			//買入 賣出 hard to define put where
+			//put_to_lsit(progress_pull_container);	
+						
+			//買入 賣出 btn
 			var bet_container:MultiObject = create("bet_container", [ResName.emptymc],title.container);
 			bet_container.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
 			bet_container.Post_CustomizedData = [2, 480,0];
@@ -152,38 +158,54 @@ package View.ViewComponent
 			bet_container.container.y = 230;
 			bet_container.Create_(2);
 			
-			put_to_lsit(bet_container);
+			//put_to_lsit(bet_container);
 			
-			//最多,最少金額
+			//最少,最多字樣
+			var profitTitle:MultiObject = create("profit_title", [theme],title.container);
+			profitTitle.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
+			profitTitle.Post_CustomizedData = [2, 850, 0];		
+			profitTitle.CustomizedData = [2, 3];
+			profitTitle.CustomizedFun = _regular.FrameSetting;
+			profitTitle.container.x = 154;
+			profitTitle.container.y = 684;
+			profitTitle.Create_(2);
+			
+			put_to_lsit(profitTitle);
+			
+			//時間刻度及最多,最少金額
+			var profit_text:MultiObject = create("profit_text", [panel_text], title.container);		
+			profit_text.Posi_CustzmiedFun = _regular.Posi_xy_Setting;
+			profit_text.Post_CustomizedData = [[0, 0], [0, 0], [844, 0], [0, 265], [843, 265]];
+			profit_text.container.x = 100;
+			profit_text.container.y = 440;
+			profit_text.Create_(5);
+			
+			put_to_lsit(profit_text);
+			
+			//獲取金額跟隨框
 			_model.putValue("money_high", 100000);
-			var XXX_container:MultiObject = create("XXX_container", [ResName.emptymc],title.container);		
-			XXX_container.CustomizedFun = XXX_money_init;
-			XXX_container.CustomizedData = ["0"];
+			var XXX_container:MultiObject = create("expectValue", [expectvalue],title.container);		
+			XXX_container.CustomizedFun = _regular.textSetting;
+			XXX_container.CustomizedData = [0];
 			XXX_container.container.x = 83;
 			XXX_container.container.y = 665;
 			XXX_container.Create_(1);
 			
-			put_to_lsit(XXX_container);
+			//put_to_lsit(XXX_container);
 		
 			//預期獲利拉bar
 			_model.putValue("expect_profit", 0);
-			var p_win_r:MovieClip = GetSingleItem("pullbar_" + "0", pointor);
-			var p_win_l:MovieClip = GetSingleItem("pullbar_Sec" + "0", pointor);
-			var ex_profie_pointor:MovieClip = GetSingleItem("pullbar_" + "2", pointor);	
-			ex_profie_pointor.x = 1.04;
-			
-			//初始time
-			var time_pointor:MovieClip = GetSingleItem("pullbar_" + "1", pointor);
-			time_pointor.x = 53.45;
-			time_scale_update(time_pointor);
-			
-			//初始買入賣出價
-			
-			pull_expect_value(ex_profie_pointor,p_win_r,p_win_l);
+			//var p_win_r:MovieClip = GetSingleItem("pullbar_" + "0", pointor);
+			//var p_win_l:MovieClip = GetSingleItem("pullbar_Sec" + "0", pointor);
+			//var ex_profie_pointor:MovieClip = GetSingleItem("pullbar_" + "2", pointor);	
+			//ex_profie_pointor.x = 1.04;
+			//
+			//初始買入賣出價			
+			//pull_expect_value(ex_profie_pointor,p_win_r,p_win_l);
+			//pull_bar_init();
 			_model.putValue("My_price", 8400);
 			
-			utilFun.SetTime(My_ini, 0.1);
-			
+			//
 			var pullhand:MultiObject = create("pull_hand", ["pull_hand"], title.container);
 			pullhand.MouseFrame = utilFun.Frametype(MouseBehavior.Customized, [1, 2, 0, 0]);
 			pullhand.Create_(1);
@@ -191,10 +213,77 @@ package View.ViewComponent
 			pullhand.container.y = 50;
 			
 			_regular.Twinkle_by_loopFrame(pullhand.ItemList[0], 3, 2, 2);
-			put_to_lsit(pullhand);
+			//put_to_lsit(pullhand);		
+			
 			
 			state_parse([gameState.START_BET]);
 		}		
+		
+		override public function appear():void
+		{
+			var mu:MultiObject = Get("progresstitle");
+			mu.container.visible = true;
+			
+			mu = Get("progress_container");
+			mu.container.visible = true;
+			mu.FlushObject();
+			
+			setFrame("profit_title", 2);
+			
+			var profit_text:MultiObject = Get("profit_text");			
+			profit_text.CustomizedFun =_regular.textSetting
+			profit_text.CustomizedData = ["now", "", "1day", "100", "100000"];
+			profit_text.FlushObject();
+			
+			utilFun.Log("dtaa = " + _model.getValue("current_item"));
+			
+			pull_bar_init();
+			//初始time
+			//var time_pointor:MovieClip = GetSingleItem("pullbar_" + "1", pointor);
+			//time_pointor.x = 53.45;
+			//time_scale_update(time_pointor);
+		}
+		
+		override public function disappear():void
+		{
+			var mu:MultiObject = Get("progresstitle");
+			mu.container.visible = false;
+			
+			mu = Get("progress_container");
+			mu.container.visible = false;
+			
+			setFrame("profit_title", 1);
+			
+			var profit_text:MultiObject = Get("profit_text");			
+			profit_text.CustomizedFun =_regular.textSetting
+			profit_text.CustomizedData = ["", "", "", "", ""];
+			profit_text.FlushObject();
+		}
+		
+		public function pull_bar_init():void
+		{
+			//各拉bar 初始位置
+			var p_win_r:MovieClip = GetSingleItem("pullbar_" + "0", pointor);
+			var p_time:MovieClip = GetSingleItem("pullbar_" + "1", pointor);
+			var p_win_l:MovieClip = GetSingleItem("pullbar_Sec" + "0", pointor);
+			var ex_profie_pointor:MovieClip = GetSingleItem("pullbar_" + "2", pointor);	
+			
+			
+			ex_profie_pointor.x = 1.04;
+			pull_expect_value(ex_profie_pointor, p_win_r, p_win_l);
+			pullbar_update(p_win_r);
+			
+			//時間
+			p_time.x = 53.45;
+			var timebar_color:MovieClip = GetSingleItem("progress_" + "1", style);
+			timebar_color["_firstbar"].x = p_time.x;
+			timebar_color["_tail"].x = p_time.x;
+			
+			//預計獲利
+			var ex_profie_bar:MovieClip = GetSingleItem("progress_" + "2", style);
+			ex_profie_bar["_firstbar"].x = ex_profie_pointor.x;
+			ex_profie_bar["_tail"].x = ex_profie_pointor.x;
+		}
 		
 		public function now_price_init(mc:MovieClip, idx:int, data:Array):void
 		{
@@ -223,27 +312,10 @@ package View.ViewComponent
 		{			
 			var price:Number = _model.getValue("My_price");
 			
-			if( _isContinue_mode) price += get_continue_amount(pointor,_Pull_bar_centrol_point,_adjust_range);
-			else  price +=  get_continue_amount(pointor,_Pull_bar_centrol_point,_adjust_range,10);		
+			if( _isContinue_mode) price += _value_trans.get_continue_amount(pointor,_Pull_bar_centrol_point,_adjust_range);
+			else  price +=  _value_trans.get_continue_amount(pointor,_Pull_bar_centrol_point,_adjust_range,10);		
 			//Log("point =" + get_continue_amount(pointor)); 
 			pointor["_text"].text = price.toFixed(0).toString();			
-		}
-		
-		/**
-		 * 拉bar位置計算出相對數值   
-		 * @param	pointor   ->拉bar
-		 * @param	centrol_point  ->拉bar 起始中心點,一開始在中間就傳 distance /2,在最左邊就傳零 
-		 * @param	splite_to  -> 分成幾份
-		 * @param	base_unit  -> 最小單位分量 ,設1,每個單位都顥示,設10,每十個單位更新
-		 * @return   
-		 */
-		private function get_continue_amount(pointor:MovieClip , centrol_point:Number = 0 ,dis_splite_to:Number = 100, base_unit:int = 1):int
-		{
-			var bar_dis_width:Number = 860 - centrol_point ;			
-			var num_per_pixel:Number =    dis_splite_to / bar_dis_width ;			
-			var amount:int = (pointor.x - centrol_point) * num_per_pixel / base_unit;
-			amount = amount * base_unit;
-			return amount;
 		}		
 		
 		public function CDF(p_win:Number):Number
@@ -260,23 +332,6 @@ package View.ViewComponent
             var result:Number = 0.5 + ( sum / Math.sqrt(2 * Math.PI)) * Math.exp( -(p_win * p_win) / 2)			
             return result;
         }
-
-		
-		private function My_ini():void
-		{
-			//預期獲利
-			var pointor:MovieClip = GetSingleItem("pullbar_" + "2", pointor);	
-			var mc:MovieClip = GetSingleItem("progress_" + "2", style);
-			mc["_firstbar"].x = pointor.x;
-			mc["_tail"].x = pointor.x;
-			
-			//時間初值
-			var time_pointor:MovieClip = GetSingleItem("pullbar_" + "1", 0 );				
-			var time:MovieClip = GetSingleItem("progress_" + "1", style);
-			var myx:Number = time_pointor.x;
-			time["_firstbar"].x = time_pointor.x;
-			time["_tail"].x = time_pointor.x;
-		}
 		
 		public function btn_init(mc:MovieClip, idx:int, data:Array):void
 		{
@@ -298,18 +353,6 @@ package View.ViewComponent
 			//object_init("progress_"+idx, percent);
 			
 			put_to_lsit(ob_cotainer);
-		}
-		
-		
-		public function XXX_money_init(mc:MovieClip, idx:int, data:Array):void
-		{
-			var name:String = "xxx_money_";
-			var component:Array =  [expectvalue];
-			var progress_bar:MultiObject = create(name + idx, component , mc);			
-			progress_bar.Posi_CustzmiedFun = _regular.Posi_xy_Setting;
-			progress_bar.Post_CustomizedData = [[0, 0]];
-			progress_bar.Create_(component.length);
-			GetSingleItem(name + idx, value_tag)["_text"].text = data[idx];
 		}
 		
 		public function obinit(mc:MovieClip, idx:int, data:Array):void
@@ -385,7 +428,7 @@ package View.ViewComponent
 					var ex_profie_pointor:MovieClip = GetSingleItem("pullbar_" + "2", pointor);
 					
 					var mypointor:MovieClip = GetSingleItem("pullbar_" + idx, pointor);				
-						
+					utilFun.Log("mypoint =" + mypointor.x);
 					//防呆
 					//左邊拉bar
 					var L_pointor:MovieClip = GetSingleItem("pullbar_Sec" + "0", pointor);				
@@ -419,9 +462,9 @@ package View.ViewComponent
 						price_low_high(mypointor);						
 					}
 						
-					var mc:MovieClip = GetSingleItem("progress_" + idx, style);
-					mc["_firstbar"].x = mypointor.x;
-					mc["_tail"].x = mypointor.x;
+					var color_bar:MovieClip = GetSingleItem("progress_" + idx, style);
+					color_bar["_firstbar"].x = mypointor.x;
+					color_bar["_tail"].x = mypointor.x;
 					
 					
 					if ( idx == 1)
@@ -463,8 +506,8 @@ package View.ViewComponent
 		public function p_win_pullbar_zone_normalize(p_win_pullbar:MovieClip):Number
 		{			
 			var shift_point:Number;
-			if ( _isContinue_mode) shift_point = get_continue_amount(p_win_pullbar, _Pull_bar_centrol_point);
-			else shift_point = get_continue_amount(p_win_pullbar, _Pull_bar_centrol_point, _adjust_range, 10);
+			if ( _isContinue_mode) shift_point = _value_trans.get_continue_amount(p_win_pullbar, _Pull_bar_centrol_point);
+			else shift_point = _value_trans.get_continue_amount(p_win_pullbar, _Pull_bar_centrol_point, _adjust_range, 10);
 			
 			return shift_point / _adjust_range;
 		}
@@ -472,7 +515,7 @@ package View.ViewComponent
 		public function price_low_high(pullbar:MovieClip):void
 		{			
 			var normal:Number  = p_win_pullbar_zone_normalize(pullbar);
-			Log("normal zone= " + normal.toFixed(2));
+			//Log("normal zone= " + normal.toFixed(2));
 			
 			//算出stack
 			var stack:Array =  get_cdf_low_high( parseFloat( normal.toFixed(2) ), get_amount());
@@ -489,7 +532,7 @@ package View.ViewComponent
 		
 		public function get_expect_profi(expect_profi_pullbar:MovieClip):int
 		{			
-			var amount:int =  get_continue_amount(expect_profi_pullbar, 0, _model.getValue("money_high"), 100);			
+			var amount:int =  _value_trans.get_continue_amount(expect_profi_pullbar, 0, _model.getValue("money_high"), 100);			
 			
 			if ( amount <= 100) amount = 100;
 			
@@ -501,10 +544,13 @@ package View.ViewComponent
 		public function pull_expect_value(ex_profit_pullbar:MovieClip,p_win_r:MovieClip,p_win_l:MovieClip):void
 		{
 			//expect_value
-			var mc:MovieClip = GetSingleItem("xxx_money_" + "0");
+			var mc:MovieClip = GetSingleItem("expectValue");
 			mc.x = ex_profit_pullbar.x;
 			var amount:int = get_amount();
-			mc["_text"].text =  amount.toString();
+			var expectValue:MultiObject = Get("expectValue");
+			expectValue.CustomizedFun = _regular.textSetting;
+			expectValue.CustomizedData = [ amount];
+			expectValue.FlushObject();
 			
 			if ( p_win_l.x > 0)
 			{
@@ -575,7 +621,7 @@ package View.ViewComponent
 			var timescale_hours:int = 3600;
 			
 			var time_shift_pixel:Number = timescale_day / 860;
-			var per_unit:int  = (pullbar_x / 43) ;//  (860 /43);
+			var per_unit:int  = (pullbar_x / 43) ;//_value_trans.get_continue_amount(pullbar,_Pull_bar_centrol_point,_adjust_range,10);		
 			var hour:int = 0
 			var min:int = 0			
 			if ( per_unit == 1) min = 1;
@@ -604,10 +650,18 @@ package View.ViewComponent
 			}
 			if ( min != 0) 	pullbar["_text"].text = min + "mins";
 			
+			//Log("time ad h= " +  hour );
+			//Log("time ad m= " +  min );
+			//Log("time ad days= " +  days );
+			var data_str:String = "";
 			
-			//Log("time ad = " + per_unit );				
-			//TODO  wait to start BET
-			//GetSingleItem("time_" + "0", 2)["_text"].text =  "  To  " + time_format.get_time("MM / dd  hh:mm", days, hour, min);
+			if ( days == 1) data_str = "24:00:00";
+			else	if ( hour != 0 ) data_str = time_format.get_reset_time("hh:mm:ss", days, hour, min);		
+			else	data_str = time_format.get_reset_time("mm:ss", days, hour, min);
+			
+			_model.putValue("order_time", data_str);
+			
+			GetSingleItem("time_" + "0", 2)["_text"].text =  "  To  " + time_format.get_time("MM / dd  hh:mm", days, hour, min);
 		}
 		
 		private function remove_listen(idx:int):void
@@ -619,6 +673,7 @@ package View.ViewComponent
 			mc.removeEventListener(MouseEvent.MOUSE_UP, mu.cut_name);
 			mc.removeEventListener(MouseEvent.ROLL_OUT, mu.cut_name);
 			
+			recode_vale();
 		}
 		
 		public function pullbar_sec_init(mc:MovieClip, idx:int, data:Array):void
@@ -645,18 +700,20 @@ package View.ViewComponent
 			var pa_st:String = name.substr(0 ,name.length - 1);
 			var contain_idx:String = pa_st.substr(pa_st.length -1 ,pa_st.length);
 			Log("buy in  contain_idx= " + contain_idx + " btn idx " + idx);
-			
+
 			//0 跌,價內 買入  1,漲,價外買入
+			recode_vale();
 			var L_pointor:MovieClip = GetSingleItem("pullbar_Sec" + "0", pointor);
 			if ( parseInt(contain_idx) == 0)
 			{				
-				if ( L_pointor.x  > 0 ) dispatcher(new ModelEvent("In_price"));
-				else dispatcher(new ModelEvent("fall_down"));
+				if ( L_pointor.x  > 0 ) dispatcher(new ModelEvent(BetCommand.buy_ticket,BetCommand.Inprice));
+				else dispatcher(new ModelEvent(BetCommand.buy_ticket,BetCommand.down));
+				
 			}
 			else 
 			{
-				if ( L_pointor.x  > 0 ) dispatcher(new ModelEvent("out_price"));
-				else dispatcher(new ModelEvent("raise_up"));
+				if ( L_pointor.x  > 0 ) dispatcher(new ModelEvent(BetCommand.buy_ticket,BetCommand.outprice));				
+				else dispatcher(new ModelEvent(BetCommand.buy_ticket,BetCommand.up));				
 			}
 			
 			return true;
@@ -724,7 +781,8 @@ package View.ViewComponent
 					if ( idx == 0)
 					{
 						//區間內外
-						pull_expect_value(ex_profie_pointor, p_win_r,p_win_l);
+						pull_expect_value(ex_profie_pointor, p_win_r, p_win_l);
+						
 					}
 					
 					pullbar_update(pointor);
@@ -784,102 +842,11 @@ package View.ViewComponent
 			mc.removeEventListener(MouseEvent.MOUSE_MOVE, mu.cut_name);
 			mc.removeEventListener(MouseEvent.MOUSE_UP, mu.cut_name);
 			mc.removeEventListener(MouseEvent.ROLL_OUT, mu.cut_name);
+			
+			recode_vale();
 		}
 		
-		override public function appear():void
-		{
-			var mu:MultiObject = Get("progresstitle");
-			mu.container.visible = true;
-			
-			mu = Get("progress_container");
-			mu.container.visible = true;
-			mu.FlushObject();
-		}
 		
-		override public function disappear():void
-		{
-			var mu:MultiObject = Get("progresstitle");
-			mu.container.visible = false;
-			
-			mu = Get("progress_container");
-			mu.container.visible = false;		
-		}
-		
-		//mode -> (contorl ?)->view 
-		public function progress(zero_position:Number,full_position:Number,To_percent:Number):Number
-		{
-			//model
-			var dis:Number = Math.abs(full_position - zero_position);
-			var move_dis:Number =  zero_position + dis * (To_percent / 100);
-			
-			return move_dis;
-		}
-		
-		public function no_effect(mc:DisplayObjectContainer,  move_dis:Number):void
-		{
-			mc.x = move_dis;
-		}
-		
-		//view
-		public function effect_in_tail(mc:DisplayObjectContainer,effect:DisplayObjectContainer,move_dis:Number,rasingtime:int,kind:int):void
-		{			
-			Tweener.addTween(mc, { x:move_dis, time:rasingtime, onUpdate:this.update, onUpdateParams:[mc,effect],onComplete:this.progress_finish, onCompleteParams:[kind] } );			
-		}	
-		
-		public function update(mc:DisplayObjectContainer,effect:DisplayObjectContainer):void
-		{
-			effect.x = mc.x+320 -60;
-			effect.y = mc.y -20;
-		}
-		
-		public function progress_finish(kind:int):void
-		{			
-			var arr:Array = _model.getValue("power_idx");
-			var idx:int  = arr[kind];
-			
-			if ( idx != 5)
-			{
-				//dispatcher(new Intobject(1, "settle_step"));	
-				//utilFun.SetTime(triger, 2);
-				return ;
-			}
-			
-			
-			bigwin_show(kind);
-			
-		}
-		
-		[MessageHandler(type = "Model.valueObject.Intobject",selector="power_up")]
-		public function check_effect(type:Intobject):void
-		{
-			//model temp
-			var arr:Array = _model.getValue("power_idx");			
-			var kind:int = type.Value;			
-			
-			
-			//get model
-			var idx:int  = arr[kind];
-			var move_dis:Number = progress( progress_lenth, 0, (idx+1)*20);
-			arr[kind] += 1;			
-			
-			//data set			
-			//GetSingleItem("powerbar_" + kind, effect).gotoAndPlay(2);		
-			//gotoAndPlay
-			//gotoAndStop
-			
-			var acumu:Array = [utilFun.Random(100),utilFun.Random(100),utilFun.Random(100),utilFun.Random(100),utilFun.Random(100),utilFun.Random(100)];// _model.getValue("power_jp");			
-			
-			data_setting("progress_" + kind, percent, acumu, kind);
-			
-			//GetSingleItem("progress_"+kind,tag).gotoAndStop(utilFun.Random(10));
-			
-			//effect 
-			no_effect(GetSingleItem("progress_" + kind, style)["_colorbar"], move_dis);
-			//effect_in_tail(GetSingleItem("powerbar_"+kind, style)["_colorbar"],GetSingleItem("powerbar_" + kind, effect), move_dis, 2, kind);
-			
-			
-			
-		}
 		
 		//dock type handle
 		public function object_init(obname:String,resTag:int):void
@@ -894,90 +861,19 @@ package View.ViewComponent
 			}
 		}
 		
-		public function data_setting(obname:String, resTag:int,data:Array,data_idx:int):void
+		public function recode_vale():void
 		{
-			if ( Get(obname).resList[resTag] == ResName.TextInfo)
-			{
-				//TODO move to _text object
-				GetSingleItem(obname, resTag).getChildByName("Dy_Text").text =  data[data_idx];
-			}
-			else if (Get(obname).resList[resTag]== ResName.emptymc)
-			{				
-				//frame_setting(GetSingleItem(obname, resTag), data[data_idx]);
-			}
-		}
-		
-		//TODO move to frame Object
-		private function frame_setting(mc:MovieClip,data:int):void
-		{			
-			utilFun.Clear_ItemChildren(mc);			
-			var arr:Array = data.toString().split("");
-			arr.push(11);
-			var num:int = arr.length;
-			var p_num:MultiObject = create_dynamic(mc.parent.name, [progressnum], mc);			
-			p_num.CustomizedFun = FrameSetting;
-			p_num.CustomizedData = arr.reverse();
-			p_num.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
-			p_num.Post_CustomizedData = [num, -18, 0];		
-			p_num.Create_(num);		
+			//記錄拉bar 代表數值			
+			var p_win_r:MovieClip = GetSingleItem("pullbar_" + "0", pointor);
+			var p_win_l:MovieClip = GetSingleItem("pullbar_Sec" + "0", pointor);	
+					
+			var point_r:int =  _value_trans.get_continue_amount(p_win_r,_Pull_bar_centrol_point,_adjust_range);
+			var point_l:int =  _value_trans.get_continue_amount(p_win_l, _Pull_bar_centrol_point, _adjust_range);
+			var base:int = _model.getValue("My_price");
+			_model.putValue("range_point", [base + point_l, base + point_r]);		
 			
-		}
-		
-		public function FrameSetting(mc:MovieClip, idx:int, data:Array):void
-		{			
-			if ( data[idx] == 0 ) data[idx] = 10;
-			mc.gotoAndStop(data[idx]);			
-		}
-		
-		private function triger():void
-		{
-			dispatcher(new StringObject("sound_Powerup_poker","sound" ) );
-		}
-		
-		private function bigwin_show(kind:int):void
-		{
-			Get("Power_JP").container.visible = true;
-			var acumu:Array = _model.getValue("power_jp");
-			var s:String = acumu[kind].toString();
-			var arr:Array = utilFun.frameAdj(s.split(""));					
-			
-			
-			
-			var PowerJPNum:MultiObject = Get("Power_JP_num");
-			PowerJPNum.container.x = -30 + ((-57 /2) * (arr.length-1));
-			PowerJPNum.container.y = 110;		
-			PowerJPNum.CustomizedData = arr;
-			PowerJPNum.CustomizedFun = _regular.FrameSetting;
-			PowerJPNum.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
-			PowerJPNum.Post_CustomizedData = [arr.length, 57, 10];
-			PowerJPNum.Create_(arr.length);					
-			_regular.Call(this, { onComplete:this.showok,onCompleteParams:[kind] }, 4, 1, 1, "linear");
-			dispatcher(new StringObject("sound_bigPoker", "sound" ) );
-			
-		}
-		
-		
-		private function showok(kind:int):void
-		{
-			var arr:Array = _model.getValue("power_idx");	
-			arr[kind] = 0;
-			_model.putValue("power_idx", arr);
-			
-			GetSingleItem("progress_"+kind, 1)["_colorbar"].x = progress_lenth;
-			GetSingleItem("progress_"+kind, 2).visible = false;
-			GetSingleItem("progress_"+kind, 3).getChildByName("Dy_Text").text = "";
-			
-			var acu_jp:Array  = _model.getValue("power_jp");
-			acu_jp[kind] = 0;
-			_model.putValue("power_jp", acu_jp );
-			//utilFun.Log("acu_jp = " + _model.getValue("power_jp"));
-			
-			//TODO move
-			Get("Power_JP").container.visible = false;
-			var PowerJPNum:MultiObject = Get("Power_JP_num");
-			PowerJPNum.CleanList();
-			
-			dispatcher(new Intobject(1, "settle_step"));	
+			var p_time:MovieClip = GetSingleItem("pullbar_" + "1", pointor);
+			time_scale_update(p_time);
 		}
 		
 	}

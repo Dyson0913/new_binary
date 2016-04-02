@@ -88,96 +88,6 @@ package View.Viewutil
 			_Container = contain;
 		}
 		
-		/**
-		 * 生成N個物件 			E.X BetPointList.Create(12, "OrderBtn",1397.35 ,131.75 , 1, 0, 50.55, "BetPoint_", betView);
-		 * @param	ItemNum  	總數量
-		 * @param	LinkName 	fla裡的link名
-		 * @param	StartX			起始X
-		 * @param	StartY			起始Y
-		 * @param	RowCnt		一列數量
-		 * @param	Xdiff			X間隔
-		 * @param	Ydiff			Y間隔
-		 * @param	ItemName	元件命名 XXX_id(判定事件為那個元件觸發,會取其ID做判斷)
-		 * @param	Container		父節點
-		 */
-		public function Create(ItemNum:int,LinkName:String,StartX:Number,StartY:Number,RowCnt:int,Xdiff:Number,Ydiff:Number,ItemName:String,Container:DisplayObjectContainer):void
-		{
-			CleanList();
-			_Container = Container;			
-			for (var i:int = 0 ; i < ItemNum; i++)
-			{
-				var mc:MovieClip = utilFun.GetClassByString(LinkName);
-				mc.x = StartX + (i % RowCnt * Xdiff);
-				mc.y = StartY + ( Math.floor(i / RowCnt) * Ydiff);	
-				
-				mc.name = ItemName + i;
-				_ItemName = ItemName;
-				ItemList.push(mc);
-				_Container.addChild(mc);
-			}		
-			customized();
-			_Container = Container;
-			Listen();
-		}
-		
-		public function Create_by_native(ItemNum:int,ItemNameList:Array,StartX:Number,StartY:Number,RowCnt:int,Xdiff:Number,Ydiff:Number,ItemName:String):void
-		{
-			CleanList();
-			var diff:int = ItemNum - ItemNameList.length;
-			if ( diff >0)
-			{
-				var lastItem:String = ItemNameList[ ItemNameList.length - 1];
-				for ( var j:int = 0; j < diff ;j++) ItemNameList.push(lastItem);
-			}
-			
-			for (var i:int = 0 ; i < ItemNum; i++)
-			{
-				var mc:* = ItemNameList[i];
-				
-				//TODO position customized
-				mc.x = StartX + (i % RowCnt * Xdiff);
-				mc.y = StartY + ( Math.floor(i / RowCnt) * Ydiff);			
-				
-				mc.name = ItemName + i;
-				_ItemName = ItemName;
-				ItemList.push(mc);
-				_Container.addChild(mc);
-			}
-			
-			//customized area		
-			customized();			
-			Listen();
-		}
-		
-		public function Create_by_list(ItemNum:int,ItemNameList:Array,StartX:Number,StartY:Number,RowCnt:int,Xdiff:Number,Ydiff:Number,ItemName:String):void
-		{
-			CleanList();
-			var diff:int = ItemNum - ItemNameList.length;
-			if ( diff >0)
-			{
-				var lastItem:String = ItemNameList[ ItemNameList.length - 1];
-				for ( var j:int = 0; j < diff ;j++) ItemNameList.push(lastItem);
-			}
-			
-			for (var i:int = 0 ; i < ItemNum; i++)
-			{
-				var mc:MovieClip = utilFun.GetClassByString(ItemNameList[i]);
-				
-				//TODO position customized
-				mc.x = StartX + (i % RowCnt * Xdiff);
-				mc.y = StartY + ( Math.floor(i / RowCnt) * Ydiff);			
-				
-				mc.name = ItemName + i;
-				_ItemName = ItemName;
-				ItemList.push(mc);
-				_Container.addChild(mc);
-			}
-			
-			//customized area		
-			customized();			
-			Listen();
-		}		
-		
 		public function Create_(ItemNum:int):void
 		{
 			CleanList();
@@ -237,6 +147,24 @@ package View.Viewutil
 				if (CustomizedFun != null)
 				{
 					CustomizedFun(ItemList[i], i,CustomizedData);
+				}
+			}
+		}
+		
+		public function FlushObject_bydata():void
+		{
+			var ItemNum:int = ItemList.length;
+			var dataNum:int = CustomizedData.length;
+			for (var i:int = 0 ; i < ItemNum; i++)
+			{			
+				if (CustomizedFun != null)
+				{
+					if ( i >= dataNum ) ItemList[i].visible = false;
+					else 
+					{
+						ItemList[i].visible = true;
+						CustomizedFun(ItemList[i], i,CustomizedData);
+					}
 				}
 			}
 		}
@@ -331,6 +259,8 @@ package View.Viewutil
 				if ( MouseFrame[2] != 0) ItemList[i].addEventListener(MouseEvent.MOUSE_DOWN, eventListen);
 				if ( MouseFrame[3] != 0) ItemList[i].addEventListener(MouseEvent.MOUSE_UP, eventListen);
 			}
+			//var mc:MovieClip
+			//mc.addEventListener(MouseEvent.ROLL_OUT,eventListen,
 		}
 		
 		public function removeListen():void

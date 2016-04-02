@@ -45,11 +45,8 @@ package View.GameView
 			
 		}
 		
-			//result:Object
 		public function FirstLoad(para:Array ):void
  		{			
-			utilFun.Log("FirstLoad =" + para);
-			//_model.putValue(modelName.LOGIN_INFO, para[0]);
 			_model.putValue(modelName.UUID,  para[0]);
 			_model.putValue(modelName.CREDIT, para[1]);
 			_model.putValue(modelName.Client_ID, para[2]);
@@ -58,20 +55,6 @@ package View.GameView
 			
 			_betCommand.bet_init();
 			_sound.init();
-			_model.putValue(modelName.Game_Name, "Super7PK");
-			
-			var state:DI = new DI();
-			state.putValue("NewRoundState", gameState.NEW_ROUND);
-			state.putValue("StartBetState", gameState.START_BET);
-			state.putValue("EndBetState", gameState.END_BET);
-			state.putValue("OpenState", gameState.START_OPEN);
-			state.putValue("EndRoundState", gameState.END_ROUND);			
-			_model.putValue("state_mapping", state);
-			
-			_model.putValue("current_list", ["歐元", "美元", "英鎊", "加幣", "日元", "韓元", "港幣", "新台幣", "人民幣", "比特幣", "新加坡幣"]);
-			_model.putValue("result_Pai_list", []);
-			
-			_model.putValue("game_round", 1);
 			
 			dispatcher(new Intobject(modelName.Loading, ViewCommand.SWITCH));			
 		}
@@ -81,16 +64,16 @@ package View.GameView
 		{
 			if (View.Value != modelName.Loading) return;
 			super.EnterView(View);
-			var view:MultiObject = prepare("_view", new MultiObject() , this);
-			view.Create_by_list(1, [ResName.emptymc], 0, 0, 1, 0, 0, "a_");
+			var view:MultiObject = create("_view", [ResName.emptymc], this);		
+			view.Create_(1);
 					
 			//utilFun.SetTime(connet, 0.1);
-			_test.init();
+			//_test.init();
 			
-			//dispatcher(new Intobject(modelName.Bet, ViewCommand.SWITCH) );
+			dispatcher(new Intobject(modelName.Bet, ViewCommand.SWITCH) );			
 			//
-			//_model.putValue(modelName.GAMES_STATE,gameState.NEW_ROUND);			
-			//dispatcher(new ModelEvent("update_state"));
+			_model.putValue(modelName.GAMES_STATE,gameState.NEW_ROUND);			
+			dispatcher(new ModelEvent("update_state"));
 			
 			
 		}

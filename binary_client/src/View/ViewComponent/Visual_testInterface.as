@@ -47,9 +47,6 @@ package View.ViewComponent
 		public var _timer:Visual_timer;
 		
 		[Inject]
-		public var _btn:Visual_BtnHandle;
-		
-		[Inject]
 		public var _debug:Visual_debugTool;
 		
 		[Inject]
@@ -82,6 +79,9 @@ package View.ViewComponent
 		[Inject]
 		public var _downlist:Visual_downList;	
 		
+		[Inject]
+		public var _pop_hint:Visual_pop_hint;
+		
 		private var _pack:Array = [];
 		
 		public function Visual_testInterface() 
@@ -94,8 +94,7 @@ package View.ViewComponent
 			_model.putValue("test_init", false);
 			
 			_debug.init();			
-			_betCommand.bet_init();			
-			_model.putValue("result_Pai_list", []);
+			_betCommand.bet_init();						
 			_model.putValue("game_round", 1);			
 			
 			var script:DI = new DI();
@@ -150,22 +149,24 @@ package View.ViewComponent
 			
 			//share
 			_theme.init();
-			_page_arrow.init();
+			_page_arrow.init();		
 			
-			//stage 1
-			_Item_list.init();
-			
-			//stage 2
-			_downlist.init();
-			_progressbar.init();
-			_btn.init();			
-			_FinancialGraph.init();			
-			_timer.init();
-			
-			//stage 3
+			//stage 3 for order
 			_ticket_binary.init();
 			
-			_Version.debug();
+			//stage 1
+			_Item_list.init();		
+			
+			//stage 2			
+			_progressbar.init();	
+			_FinancialGraph.init();			
+			_timer.init();		
+			
+			//top of all
+			_downlist.init();
+			_pop_hint.init();
+			
+			//_Version.debug();
 			_model.putValue("test_init",true);
 		}
 		
@@ -205,11 +206,8 @@ package View.ViewComponent
 		public function betScript():void
 		{			
 			_model.putValue(modelName.REMAIN_TIME, 20);
-			fake_hisotry();
-			var odd:Array = [-1,9, -1, -1, -1, 19, 88, 12, -1, 18, 528, -1];
-			_model.putValue("round_paytable", odd);
-			
-			_betCommand.handle_odd(_model.getValue("round_paytable"));			
+			fake_hisotry();			
+						
 			
 			_model.putValue(modelName.GAMES_STATE,gameState.START_BET);			
 			dispatcher(new ModelEvent("update_state"));

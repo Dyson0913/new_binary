@@ -101,6 +101,14 @@ package util
 			}		
 		}	
 		
+		public static function Clear_ItemChildrenNotBg(Container:DisplayObjectContainer):void
+		{
+			while (Container.numChildren > 1)
+			{	
+				Container.removeChildAt(1);
+			}		
+		}	
+		
 		public static function SetText(Container:TextField,Text:String):void
 		{			
 			Container.text = Text;

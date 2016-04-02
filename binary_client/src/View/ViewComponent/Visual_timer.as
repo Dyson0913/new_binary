@@ -61,7 +61,7 @@ package View.ViewComponent
 			time_bar_container.CustomizedFun = time_init;			
 			time_bar_container.CustomizedData = [];
 			time_bar_container.FlushObject();
-			//setInterval(updatetimer, 1000, "time_", 0);
+			setInterval(updatetimer, 1000, "time_", 0);
 			
 			//setFrame(Timer, 2);
 			//var time:int = _model.getValue(modelName.REMAIN_TIME);

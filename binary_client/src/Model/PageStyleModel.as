@@ -1,6 +1,7 @@
 package Model 
 {
 	//import View.componentLib.util.utilFun;
+	import util.utilFun;
 	/**
 	 * 翻頁式資料模型
 	 * @author hhg4092
@@ -16,9 +17,31 @@ package Model
 		//本頁開始索引
 		private var _ItemPageIdx:int ;
 		
+		//己選擇索引
+		private var _Select_item_Idx:int ;
+		
+		//第幾頁
+		private var _currentPageIdx:int;
+		
+		public function get PageAmount():int
+		{
+			return _PageAmount;
+		}
+		
+		public function get ItemPageIdx():int
+		{
+			return _ItemPageIdx;
+		}
+		
 		public function PageStyleModel() 
 		{
-			
+		}
+		
+		public function GoLastPage():void {
+			var times:int = (_ItemList.length-1) / _PageAmount;
+			for (var i:int = 0; i < times; i++) {
+				NextPage();
+			}
 		}
 		
 		public function UpDateModel(ItemList:Array ,PageNum:int):void
@@ -26,6 +49,8 @@ package Model
 			_ItemList = ItemList;
 			_PageAmount = PageNum;
 			_ItemPageIdx = 0;
+			_currentPageIdx = 0;
+			_Select_item_Idx = -1;
 		}
 		
 		public function CurrentPage(Delimiter:String):String
@@ -60,21 +85,34 @@ package Model
 			if ( _ItemPageIdx > 0 )
 			{
 				_ItemPageIdx -= _PageAmount;
-			}			
+				
+			}		
 		}		
+		
+		public function getRealIdx():int {
+			return _ItemPageIdx;
+		}
 		
 		public function  GetPageDate():Array
 		{
 			var EndIdx:int = _ItemList.length - _ItemPageIdx;
+
 			return _ItemList.slice(_ItemPageIdx, _ItemPageIdx+ Math.min(EndIdx,_PageAmount) );
 		}
 		
+		//取得目前頁數點擊item
 		public function  GetOneDate(idx:int):*
-		{			
-			return _ItemList[(_ItemPageIdx+idx)];
+		{
+			_Select_item_Idx = _ItemPageIdx + idx;	
+			return _ItemList[_Select_item_Idx];
 		}
-
-		//TODO SetSelectItem的必要,非即時性才需要的功能
+		
+		//取得己點選item
+		public function  Get_Select_Date():*
+		{			
+			return _ItemList[_Select_item_Idx];
+		}
+		
 	}
 
 }

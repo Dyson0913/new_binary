@@ -35,10 +35,10 @@ package View.GameView
 		public var _timer:Visual_timer;
 		
 		[Inject]
-		public var _btn:Visual_BtnHandle;
+		public var _progressbar:Visual_progressbar;
 		
 		[Inject]
-		public var _progressbar:Visual_progressbar;
+		public var _page_arrow:Visual_page_arrow;
 		
 		[Inject]
 		public var _theme:Visual_theme;
@@ -53,7 +53,16 @@ package View.GameView
 		public var _debug_tool:Visual_debugTool;
 		
 		[Inject]
+		public var _ticket_binary:Visual_ticket_binary;
+		
+		[Inject]
+		public var _Item_list:Visual_Item_list;
+		
+		[Inject]
 		public var _FinancialGraph:Visual_FinancialGraph;
+		
+		[Inject]
+		public var _pop_hint:Visual_pop_hint;
 		
 		public function betView()  
 		{
@@ -70,25 +79,36 @@ package View.GameView
 			
 			_tool = new AdjustTool();			
 			
-			var view:MultiObject = prepare("_view", new MultiObject() , this);
-			view.Create_by_list(1, [ResName.Bet_Scene], 0, 0, 1, 0, 0, "a_");	
+			var view:MultiObject = create("_view", [ResName.Bet_Scene], this);		
+			view.Create_(1);
 			
 			
 			_debug_tool.init();
+			
+			//share
 			_theme.init();
-			_Version.init();
+			_page_arrow.init();		
 			
-			_timer.init();
-			_btn.init();
-			_progressbar.init();
+			//stage 3 for order
+			_ticket_binary.init();
 			
-			_FinancialGraph.init();
+			//stage 1
+			_Item_list.init();		
 			
+			//stage 2			
+			_progressbar.init();	
+			_FinancialGraph.init();			
+			_timer.init();		
 			
+			//top of all
+			_downlist.init();
+			_pop_hint.init();
 			
-			_theme.debug();
+		
+						
 			//dispatcher(new StringObject("Soun_Bet_BGM","Music" ) );
 		}
+		
 		
 		
 		[MessageHandler(type = "Model.valueObject.Intobject",selector="LeaveView")]

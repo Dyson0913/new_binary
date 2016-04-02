@@ -37,6 +37,11 @@ package Command
 			mc.y = po[1];
 		}
 		
+		public function empty_setting(mc:MovieClip, idx:int, data:Array):void
+		{
+			
+		}
+		
 		public function FrameSetting(mc:MovieClip, idx:int, data:Array):void
 		{
 			mc.gotoAndStop(data[idx]);
@@ -60,11 +65,6 @@ package Command
 		public function FadeIn(mc:DisplayObjectContainer,  in_t:int , out_t:int, onComF:Function):void
 		{
 			Tweener.addTween(mc, { alpha:1, time:in_t, onCompleteParams:[mc,0,out_t],onComplete:onComF } );
-		}
-		
-		public function empty_FadeInfun(mc:MovieClip, a:int, t:int):void
-		{
-			
 		}
 		
 		public function Fadeout(mc:DisplayObjectContainer, a:int, t:int):void

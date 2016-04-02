@@ -10,10 +10,13 @@ package View.ViewBase
 	import Interface.ViewComponentInterface;
 	import Model.valueObject.ArrayObject;
 	import Model.valueObject.StringObject;
+	import Res.ResName;
 	import util.*;
 	import Model.*;
 	import View.Viewutil.*
 	import View.GameView.gameState;
+	
+	import flash.utils.getQualifiedClassName;
 	
 	/**
 	 * handle display item how to presentation
@@ -53,9 +56,25 @@ package View.ViewBase
 		
 		public var _tool:AdjustTool;
 		
+		public var _diplay:Boolean;
+		
+		public var _myContain:MultiObject;
+		
 		public function VisualHandler() 
 		{
 			_tool = new AdjustTool();
+		}
+		
+		public function create_container():void
+		{
+			//var my:MultiObject = create(
+			var name:String = getQualifiedClassName(this);
+			var arr:Array = utilFun.Regex_Match(name,/(.+)::(.+)/);
+			Log("name = " + arr);
+			var myContain:MultiObject = create(arr[2] + "_Contain", [ResName.emptymc])
+			myContain.Create_(1);
+			_myContain = myContain;
+			
 		}
 		
 		public function set_mission_id(id:int ):void
@@ -162,13 +181,7 @@ package View.ViewBase
 		protected function removie(item:*):void
 		{
 			GetSingleItem("_view").parent.parent.removeChild(item);
-		}
-		
-		protected function prepare(name:*, ob:ViewComponentInterface, container:DisplayObjectContainer = null):*
-		{
-			ob.setContainer(new Sprite());
-			return utilFun.prepare(name,ob , _viewcom.currentViewDI , container);
-		}
+		}	
 		
 		//========================= better way		
 		protected function create(name:*,resNameArr:Array, Stick_in_container:DisplayObjectContainer = null):*
@@ -198,36 +211,76 @@ package View.ViewBase
 		[MessageHandler(type = "Model.ModelEvent", selector = "new_round",order="1")]
 		public function new_round():void
 		{			
-			if ( _my_appear_state.indexOf(gameState.NEW_ROUND) !=-1) appear();
-			else disappear();
+			if ( _my_appear_state.indexOf(gameState.NEW_ROUND) != -1) 
+			{
+				appear();
+				_diplay = true;
+			}
+			else 
+			{
+				disappear();
+				_diplay = false;
+			}
 		}
 		
-		[MessageHandler(type = "Model.ModelEvent", selector = "start_bet")]
+		[MessageHandler(type = "Model.ModelEvent", selector = "start_bet" ,order="1")]
 		public function star_bet():void
 		{			
-			if ( _my_appear_state.indexOf(gameState.START_BET) !=-1) appear();
-			else disappear();
+			if ( _my_appear_state.indexOf(gameState.START_BET) != -1) 
+			{
+				appear();
+				_diplay = true;
+			}
+			else 
+			{
+				disappear();
+				_diplay = false;
+			}
 		}
 		
 		[MessageHandler(type = "Model.ModelEvent", selector = "stop_bet",order="1")]
 		public function end_bet():void
 		{		
-			if ( _my_appear_state.indexOf(gameState.END_BET) !=-1 )  appear();
-			else disappear();
+			if ( _my_appear_state.indexOf(gameState.END_BET) != -1 )  
+			{
+				appear();
+				_diplay = true;
+			}
+			else 
+			{
+				disappear();
+				_diplay = false;
+			}
 		}
 		
 		[MessageHandler(type = "Model.ModelEvent", selector = "open_card",order="1")]
 		public function open_card():void
 		{		
-			if ( _my_appear_state.indexOf(gameState.START_OPEN) !=-1 )  appear();
-			else disappear();
+			if ( _my_appear_state.indexOf(gameState.START_OPEN) != -1 )  
+			{
+				appear();
+				_diplay = true;
+			}
+			else 
+			{
+				disappear();
+				_diplay = false;
+			}
 		}
 		
 		[MessageHandler(type = "Model.ModelEvent", selector = "settle",order="1")]
 		public function settle():void
 		{		
-			if ( _my_appear_state.indexOf(gameState.END_ROUND) !=-1 )  appear();
-			else disappear();
+			if ( _my_appear_state.indexOf(gameState.END_ROUND) != -1 )  
+			{
+				appear();
+				_diplay = true;
+			}
+			else 
+			{
+				disappear();
+				_diplay = false;
+			}
 		}
 		
 		protected function state_parse(appear_state:Array):void

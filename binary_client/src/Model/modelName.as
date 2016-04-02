@@ -14,6 +14,7 @@ package Model
 		public static const Lobby_Call_back:int = Num++;
 		public static const Game_Name:int = Num++;
 		public static const BUY_ITEM_FRAME:int = Num++;
+		public static const ITEM_FRAME_MAPPING_TYPE:int = Num++;
 		
 		public static const LOGIN_INFO:int = Num++;
 		

@@ -1,5 +1,6 @@
 package View.ViewComponent 
 {	
+	import Command.BetCommand;
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	import Model.ModelEvent;
@@ -17,6 +18,12 @@ package View.ViewComponent
 	 */
 	public class Visual_theme  extends VisualHandler
 	{
+		[Inject]
+		public var _betCommand:BetCommand;
+		
+		[Inject]
+		public var _page_arrow:Visual_page_arrow;
+		
 		public const theme:String = "theme_binany"		
 		public const Zonetitle:String = "Zone_title"		
 		
@@ -32,17 +39,13 @@ package View.ViewComponent
 			theme.container.y = 255.7;
 			theme.Create_(1);
 			
-			//put_to_lsit(theme);
-			
 			//上方切換頁籤
-			var Zonetitle:MultiObject = create("Zonetitle", ["clip_1","clip_2","clip_3"]);
-			Zonetitle.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
-			Zonetitle.Post_CustomizedData = [3,256,0];
-			Zonetitle.container.x = 61.15;
-			Zonetitle.container.y = 83.35;
-			Zonetitle.Create_(3);
-			
-			//put_to_lsit(Zonetitle);
+			var tag:MultiObject = create("tag", ["clip_1","clip_2","clip_3"]);
+			tag.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
+			tag.Post_CustomizedData = [3,256,0];
+			tag.container.x = 61.15;
+			tag.container.y = 85.35;
+			tag.Create_(3);
 			
 			var arrow:MultiObject = create("arrow", ["arrow_left", "arrow_right"]);
 			arrow.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
@@ -51,8 +54,6 @@ package View.ViewComponent
 			arrow.container.y =593.35
 			arrow.Create_(2);
 			
-			//put_to_lsit(arrow);
-			
 			state_parse([gameState.NEW_ROUND]);
 		}
 		
@@ -60,39 +61,57 @@ package View.ViewComponent
 		{	
 			setFrame("theme",1)			
 			
-			GetSingleItem("Zonetitle", 0).gotoAndStop(2);			
+			GetSingleItem("tag", 0).gotoAndStop(2);			
 			
-			var Zonetitle:MultiObject = Get("Zonetitle");
-			Zonetitle.MouseFrame = utilFun.Frametype(MouseBehavior.Customized, [0, 0, 2, 0]);
-			Zonetitle.mousedown = clip_change;			
-			Zonetitle.FlushObject();
+			var tag:MultiObject = Get("tag");
+			tag.MouseFrame = utilFun.Frametype(MouseBehavior.Customized, [0, 0, 2, 0]);
+			tag.mousedown = clip_change;			
+			tag.FlushObject();
 			//more and more
 			//  xxx. setting ....
 		}
 		
 		public function clip_change(e:Event, idx:int):Boolean
 		{			
+			_model.putValue("Current_item_selcet_idx", 0);			
+			dispatcher(new ModelEvent("theme_update", idx));			
+			return false;
+		}	
+		
+		[MessageHandler(type = "Model.ModelEvent", selector = "theme_update")]
+		public function theme_switch(para:ModelEvent):void
+		{
+			var idx:int = para.Value;
 			// tag 變化
-			setFrame("Zonetitle", 1);
-			GetSingleItem("Zonetitle", idx).gotoAndStop(2);
+			setFrame("tag", 1);
+			GetSingleItem("tag", idx).gotoAndStop(2);
 			
 			//底圖切換
 			setFrame("theme", idx+1);
 			
 			//狀態切換
-			if ( idx == 0) _model.putValue(modelName.GAMES_STATE,gameState.NEW_ROUND);
-			else if ( idx == 1) _model.putValue(modelName.GAMES_STATE,gameState.START_BET);
-			else if ( idx == 2) _model.putValue(modelName.GAMES_STATE,gameState.END_ROUND);
+			if ( idx == 0) 
+			{
+				//切換page model
+				_betCommand.set_current_page_module(_model.getValue("all_list")[_model.getValue("cata_idx")], "stage1" );
+				_betCommand.update_select_item(_model.getValue("Current_item_selcet_idx"));
+				_model.putValue(modelName.GAMES_STATE,gameState.NEW_ROUND);
+			}
+			else if ( idx == 1)  
+			{
+				//切換page model
+				_betCommand.set_current_page_module(_model.getValue("all_list")[_model.getValue("cata_idx")], "stage1" );				
+				_betCommand.update_select_item(_model.getValue("Current_item_selcet_idx"));
+				_model.putValue(modelName.GAMES_STATE,gameState.START_BET);
+			}
+			else if ( idx == 2) 
+			{				
+				//更新下注值
+				_betCommand.set_current_page_module(_betCommand.get_my_betlist(), "buy_ticket" );				
+				_model.putValue(modelName.GAMES_STATE,gameState.END_ROUND);
+			}
 			dispatcher(new ModelEvent("update_state"));
-			
-			return false;
 		}
-		
-		override public function disappear():void
-		{
-			
-		}
-		
 		
 		override public function test_suit():void
 		{

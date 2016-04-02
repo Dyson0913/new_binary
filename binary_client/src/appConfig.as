@@ -8,6 +8,7 @@ package
 	import org.spicefactory.parsley.core.registry.ObjectDefinition;
 	import util.math.Path_Generator;
 	import util.*;
+	import util.math.Value_Transfer;
 	import View.ViewBase.ViewBase;
 	import ConnectModule.websocket.WebSoketComponent;
 	import View.ViewBase.Visual_Text;
@@ -49,13 +50,13 @@ package
 		
 		//util
 		public var _path:Path_Generator = new Path_Generator();
+		public var _value:Value_Transfer = new Value_Transfer();
 		public var _debug:Visual_debugTool = new Visual_debugTool();
 		public var _replayer:Visual_package_replayer = new Visual_package_replayer();
 		public var _Version:Visual_Version = new Visual_Version();
 		
 		//visual		
-		public var _timer:Visual_timer = new Visual_timer();				
-		public var _btn:Visual_BtnHandle = new Visual_BtnHandle();		
+		public var _timer:Visual_timer = new Visual_timer();
 		public var _text:Visual_Text = new Visual_Text();		
 		public var _progressbar:Visual_progressbar = new Visual_progressbar();		
 		public var _theme:Visual_theme = new Visual_theme();		
@@ -65,10 +66,10 @@ package
 		public var _page_arrow:Visual_page_arrow = new Visual_page_arrow();
 		public var _Item_list:Visual_Item_list = new Visual_Item_list();
 		public var _ticket_binary:Visual_ticket_binary = new Visual_ticket_binary();
+		public var _pop_hint:Visual_pop_hint = new Visual_pop_hint();
 		
 		//test
 		public var _test:Visual_testInterface = new Visual_testInterface();
-		
 		
 		//[ProcessSuperclass]
 		//public var _vibase:ViewBase = new ViewBase();

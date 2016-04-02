@@ -119,30 +119,6 @@ package ConnectModule.websocket
 						}
 						dispatcher(new ValueObject(  _opration.getMappingValue("state_mapping", result.game_state) , modelName.GAMES_STATE) );	
 						
-						if ( result.update_odds) 
-						{
-							var small_to_big:Array = [];								
-							small_to_big.push.apply(small_to_big, result.update_odds);						
-							small_to_big.splice(2, 1);
-							small_to_big.splice(6 - 1, 1);
-							dispatcher(new ValueObject(  small_to_big, "round_paytable") );
-							_betCommand.handle_odd(_model.getValue("round_paytable"));
-						}
-						
-						var poke1:Array = [];
-						var poke2:Array = [];
-						var po:Array = result.cards_info["extra_card_list"];
-						poke1.push.apply(poke1,po );
-						poke2.push.apply(poke2, po);
-						var ri:Array =  result.cards_info["river_card_list"];
-						if ( ri.length != 0)
-						{
-							poke1.push.apply(poke1, ri);
-							poke2.push.apply(poke2, ri);
-						}
-						//_model.putValue(modelName.POKER_1, poke1);
-						//_model.putValue(modelName.POKER_2, poke2);
-							
 						
 						dispatcher(new ValueObject(  result.game_round, "game_round") );
 						dispatcher(new ValueObject(  result.game_id, "game_id") );
@@ -151,8 +127,6 @@ package ConnectModule.websocket
 						
 						dispatcher(new ModelEvent("update_state"));
 						
-						dispatcher( new ValueObject(poke1, modelName.POKER_1) );
-						dispatcher( new ValueObject(poke2, modelName.POKER_2) );					
 						dispatcher(new Intobject(modelName.POKER_1, "poker_No_mi"));
 						dispatcher(new Intobject(modelName.POKER_2, "poker_No_mi"));
 						
@@ -165,20 +139,7 @@ package ConnectModule.websocket
 						var card_type:String = result.card_type;
 						var mypoker:Array =[];
 						var mypoker2:Array = [];
-						
-						//handle pre 5 poker
-						if ( _opration.getMappingValue("state_mapping", result.game_state) == gameState.NEW_ROUND)
-						{																						
-							if ( result.update_odds)
-							{
-								var smallto_big:Array = [];								
-								smallto_big.push.apply(smallto_big, result.update_odds);
-								smallto_big.splice(2, 1);
-								smallto_big.splice(6 - 1, 1);
-								dispatcher(new ValueObject(  smallto_big, "round_paytable") );
-								_betCommand.handle_odd(_model.getValue("round_paytable"));
-							}							
-						}
+					
 											
 						mypoker = _model.getValue(modelName.POKER_1);
 						mypoker2 = _model.getValue(modelName.POKER_2);
@@ -227,8 +188,7 @@ package ConnectModule.websocket
 						}
 						else
 						{						
-							//下注失敗處理
-							_betCommand.cleanBetUUID(result.id);
+							//下注失敗處理						
 						}
 						
 					}	

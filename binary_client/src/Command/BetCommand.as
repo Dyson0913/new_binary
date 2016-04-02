@@ -1,8 +1,7 @@
 package Command 
 {
 	import ConnectModule.websocket.WebSoketInternalMsg;
-	import flash.events.Event;
-	import Interface.CollectionsInterface;
+	import flash.events.Event;	
 	import Model.*;
 	import Model.valueObject.*;	
 	import util.DI;
@@ -10,7 +9,8 @@ package Command
 	import View.GameView.*;
 	import Res.*;
 	import com.laiyonghao.Uuid;
-	import ConnectModule.websocket.WebSoketComponent;
+	import Model.PageStyleModel;
+	
 	/**
 	 * user bet action
 	 * @author hhg4092
@@ -31,8 +31,20 @@ package Command
 		
 		public var _Bet_info:DI = new DI();
 		
-		[Inject]
-		public var _socket:WebSoketComponent;
+		
+		public static const ITEM_NAME:String = "item_name";	
+		public static const BUY_TYPE:String = "buy_type";	
+		public static const BUY_AT_PRICE:String = "buy_at_price";	
+		public static const BUY_POINT:String = "buy_point";	
+		public static const EXPECT_VALUE:String = "expect_value";	
+		public static const REST_TIME:String = "rest_time";	
+		
+		public static const buy_ticket:String = "buy_ticket";	
+		
+		public static const up:String = "raise_up";	
+		public static const down:String = "fall_down";	
+		public static const outprice:String = "out_price";	
+		public static const Inprice:String = "In_price";	
 		
 		public function BetCommand() 
 		{
@@ -40,254 +52,242 @@ package Command
 		}
 		
 		public function bet_init():void
-		{
-			//_model.putValue("coin_selectIdx", 2);
-			_model.putValue("coin_list", 				[5, 10, 50, 100, 500, 1000, 5000, 10000]);
-			_model.putValue("coin_limit_1000", [true, true, true, true, true, false, false, false]);
-			_model.putValue("coin_limit_5000", [true, false, true, true, true, true, false, false]);
-			_model.putValue("coin_limit_10000", [true, false, false, true, true, true, true, false]);
-			_model.putValue("coin_limit_50000", [true, false, false, false, true, true, true, true]);
-			//_model.putValue("after_bet_credit", 0);
+		{			
+			_model.putValue("game_round", 1);
+			_model.putValue(modelName.Game_Name, "Super7PK");
 			
-			//閒對,閒,和,莊,莊對
-			var betzone:Array = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];			
-			var betzone_name:Array = ["BetS7PKNone", "BetS7PKOnePair", "BetS7PKTwoPair", "BetS7PKTripple", "BetS7PKStraight", "BetS7PKFlush","BetS7PKFullHouse","BetS7PKFourOfAKind","BetS7PKStraightFlush","BetS7PKFiveOfAKind","BetS7PKRoyalFlush","BetS7PKPureRoyalFlush"];
-			
-			var bet_name_to_idx:DI = new DI();
-			var bet_idx_to_name:DI = new DI();
-			var _idx_to_result_idx:DI = new DI();
-			for ( var i:int = 0; i < betzone.length ; i++)
-			{
-				bet_name_to_idx.putValue(betzone_name[i], i);
-				bet_idx_to_name.putValue(i, betzone_name[i]);
-				
-				//nono = 0 -> 11 onePair= 1-> 10
-				_idx_to_result_idx.putValue(i.toString(), (betzone.length-1) -i );
-			}		
-			
-			
-			_model.putValue("Bet_name_to_idx", bet_name_to_idx);		
-			_model.putValue("Bet_idx_to_name", bet_idx_to_name);
-			_model.putValue("idx_to_result_idx", _idx_to_result_idx);
-			
-			_model.putValue(modelName.AVALIBLE_ZONE_IDX, betzone);
-			
-			
-			_model.putValue(modelName.COIN_SELECT_XY, [ [0, 0], [85, 0], [170, 0], [255, 0], [340, 0] ]);
-			
-			_model.putValue(modelName.COIN_STACK_XY,   [ [1612, 292], [1302, 292],  [998, 292], [686, 292], [378, 292], [68, 284],
-																									  [1564, 100], [1276, 100],  [982,100], [694, 100], [398, 100], [106, 100]			
-			]);
-			
-			_model.putValue(modelName.COIN_CANCEL_XY,   [ [1682, 307], [1372, 307],  [1068, 307], [756, 307], [448, 307], [138, 299],
-																									  [1634, 115], [1346, 115],  [1052,115], [764, 115], [468, 115], [176, 115]			
-			]);
-			
-			_model.putValue(modelName.COIN_BETTIMER_XY,   [ [1750, 307], [1440, 307],  [1136, 307], [824, 307], [516, 307], [206, 299],
-																									  [1702, 115], [1414, 115],  [1120,115], [832, 115], [536, 115], [244, 115]			
-			]);
-			
-			_model.putValue(modelName.COIN_AMOUNT_XY,   [ [1782, 292], [1472, 292],  [1168, 292], [876, 292], [568, 292], [258, 292],
-																									  [1744, 120], [1456, 120],  [1162,120], [874, 120], [578, 120], [296, 120]			
-			]);
-			
-			var poermapping:DI = new DI();			
-			poermapping.putValue("BetS7PKNone", 13);
-			poermapping.putValue("BetS7PKOnePair", 12);
-			poermapping.putValue("BetS7PKTwoPair", 11);
-			poermapping.putValue("BetS7PKTripple", 10);
-			poermapping.putValue("BetS7PKStraight", 9);
-			poermapping.putValue("BetS7PKFlush", 8);
-			poermapping.putValue("BetS7PKFullHouse", 7);
-			poermapping.putValue("BetS7PKFourOfAKind", 6);
-			poermapping.putValue("BetS7PKStraightFlush", 5);
-			poermapping.putValue("BetS7PKFiveOfAKind", 4);
-			poermapping.putValue("BetS7PKRoyalFlush", 3);
-			poermapping.putValue("BetS7PKPureRoyalFlush", 2);
-			_model.putValue(modelName.BIG_POKER_MSG , poermapping);		
-			
-			var bet_idx_mapping:DI = new DI();			
-			bet_idx_mapping.putValue(0, 13);
-			bet_idx_mapping.putValue(1, 12);
-			bet_idx_mapping.putValue(2, 11);
-			bet_idx_mapping.putValue(3, 10);
-			bet_idx_mapping.putValue(4, 9);
-			bet_idx_mapping.putValue(5, 8);
-			bet_idx_mapping.putValue(6, 7);
-			bet_idx_mapping.putValue(7, 6);
-			bet_idx_mapping.putValue(8, 5);
-			bet_idx_mapping.putValue(9, 4);
-			bet_idx_mapping.putValue(10, 3);
-			bet_idx_mapping.putValue(11, 2);
-			_model.putValue(modelName.BET_ZONE_MAPPING , bet_idx_mapping);			
-			
-			_model.putValue("power_jp",[0,0]);
-			
+			var state:DI = new DI();
+			state.putValue("NewRoundState", gameState.NEW_ROUND);
+			state.putValue("StartBetState", gameState.START_BET);
+			state.putValue("EndBetState", gameState.END_BET);
+			state.putValue("OpenState", gameState.START_OPEN);
+			state.putValue("EndRoundState", gameState.END_ROUND);			
+			_model.putValue("state_mapping", state);
 			
 			_Bet_info.putValue("self", [] ) ;
+			
 			_model.putValue("history_bet", []);
 			
-				var itemMapping:DI = new DI();			
+			var itemMapping:DI = new DI();			
 			itemMapping.putValue("raise_up", 1);
 			itemMapping.putValue("fall_down", 2);
 			itemMapping.putValue("out_price", 3);
 			itemMapping.putValue("In_price", 4);
-		
-			_model.putValue(modelName.BUY_ITEM_FRAME , itemMapping);		
+			
+			_model.putValue(modelName.BUY_ITEM_FRAME , itemMapping);
+			
+			//所有購買目錄
+			_model.putValue("all_catalog", ["貨幣","指數","股價"] );
+			
+			//各目錄選項
+			_model.putValue("all_list", [ ["歐元", "美元", "英鎊", "加幣", "日元", "韓元", "港幣", "新台幣", "人民幣", "比特幣", "新加坡幣", "加幣", "法郎", "南非幣"],
+														  ["上海A股", "上海B股", "上海綜合", "香港恆生", "香港國企", "日經225", "台灣加權", "韓國100", "鈕西蘭50", "澳洲ASX", "菲律賓PSEI", "印尼綜合", "印度BSE30", "深圳B股"],
+														  ["2317鴻海", "2332友訊", "2352佳世達", "2356英業達", "2365昆盈", "2390云辰", "2392正崴", "2423固緯", "2424隴華", "2451創見", "2481連宇", "2497怡利電", "2498宏達電", "3024憶聲"]
+														]
+			);			
+			
+			//目前選擇的目錄
+			_model.putValue("cata_idx", 0);
+			
+			//選擇的
+			_model.putValue("Current_item_selcet_idx", 0);
+			
+			//目前選擇的商品
+			_model.putValue("current_item", []);
+			
+			//一頁顥示資料
+			_model.putValue("one_page_data", []);
+			
+			//一個選項所有資料
+			_model.putValue("one_catalog_data", []);
+			
+			//page module
+			var page:DI = new DI();
+			
+			var stage_1_Model:PageStyleModel = new PageStyleModel();
+			stage_1_Model.UpDateModel([], 6);			
+			page.putValue("stage1", stage_1_Model);
+			
+			var buy_ticket_Model:PageStyleModel = new PageStyleModel();
+			buy_ticket_Model.UpDateModel([], 9);
+			page.putValue("buy_ticket", buy_ticket_Model);
+			
+			_model.putValue("page_module", page);
+			_model.putValue("current_page_module", new PageStyleModel());
+			
 			
 		}		
 		
-		public function sendBet(betType:int):void {
+		//----------------------------------------------------------------------客制
+		[MessageHandler(type = "Model.ModelEvent", selector = "first_pull_update")]
+		public function first_pull_update(para:ModelEvent):void
+		{
 			
-			var bet_msg:Object = createBet(betType);
-			if ( CONFIG::debug ) 
-				{				
-					//本機測試，不送封包
-					/*var r:int = int(Math.random() * 5);
-					if (r == 0 ) { 
-						//測試下注失敗
-						cleanBetUUID(bet_msg.id);
-					}*/
-				}		
-				else
-				{				
-					_socket.SendMsg(bet_msg);
-				}
+			_model.putValue("cata_idx", para.Value);
+			
+			//TODO state diff
+			var state:int = _model.getValue(modelName.GAMES_STATE);
+			if (state == gameState.NEW_ROUND) 
+			{
+				set_current_page_module(_model.getValue("all_list")[para.Value], "stage1" );
+				update_select_item(_model.getValue("Current_item_selcet_idx"));
+				
+				//更新item_list
+				dispatcher(new ModelEvent("page_update"));	
+			}
+			if (state == gameState.START_BET) 
+			{
+				set_current_page_module(_model.getValue("all_list")[para.Value], "stage1" );
+				update_select_item(_model.getValue("Current_item_selcet_idx"));
+				
+				//換目錄自動選擇第一個商品
+				dispatcher(new ModelEvent("sec_pull_update", 0));
+			}
+			if ( state == gameState.END_ROUND) 
+			{
+				set_current_page_module(_model.getValue("all_list")[para.Value], "buy_ticket" );				
+				//更新ticket bynary
+				dispatcher(new ModelEvent("page_update"));	
+			}
 			
 		}
 		
-		//新增注單
-		private function createBet(betType:int):Object {
-			var uuid:Uuid = new Uuid();
-			var total_bet_amount:int = get_total_bet(betType);
-			var bet_amount:int = 0;
-			var obs:Array = _Bet_info.getValue("self");
-			for each(var ob:Object in obs) {
-				if (ob["betType"] == betType && ob["id"] == "") {
-					bet_amount += ob["bet_amount"];
-					
-					//寫入uuid，代表資料將被發送
-					ob["id"] = uuid.toString();
-				}
-			}
-				
-			var idx_to_name:DI = _model.getValue("Bet_idx_to_name");					
+		//更新目前page model 項目時,也一拼更新該page_model 一頁所需的data,以及讓項目的所有data
+		public function set_current_page_module(dynamic_module:Array,pagekind:String ):void
+		{
+			var current_module:PageStyleModel = _model.getValue("page_module").getValue(pagekind);
+			current_module.UpDateModel(dynamic_module, current_module.PageAmount);
+			_model.putValue("current_page_module", current_module);			
 			
-			//一個注區一張單
+			if (pagekind == "buy_ticket") {
+				var current_module:PageStyleModel = _model.getValue("page_module").getValue("buy_ticket");
+				current_module.GoLastPage();
+			}
+			
+			//一頁data			
+			update_page_and_all();
+			
+			//該項目所有選項
+			if ( pagekind != "buy_ticket") 
+			{
+				_model.putValue("one_catalog_data", dynamic_module);
+			}
+			
+		}	
+		
+		public function update_page_and_all():void
+		{
+			var current_Model:PageStyleModel =  _model.getValue("current_page_module");
+			_model.putValue("one_page_data", current_Model.GetPageDate());			
+		}
+		
+		public function update_select_item(idx:int):void
+		{
+			var current_Model:PageStyleModel =  _model.getValue("current_page_module");
+			_model.putValue("current_item", current_Model.GetOneDate(idx));
+		}
+		
+		[MessageHandler(type = "Model.ModelEvent", selector = "sec_pull_update")]
+		public function sec_pull_update(para:ModelEvent):void
+		{
+			var state:int = _model.getValue(modelName.GAMES_STATE);
+			if (state == gameState.NEW_ROUND) 
+			{
+				_model.putValue("Current_item_selcet_idx", para.Value );
+				dispatcher(new ModelEvent("theme_update", 1));
+			}
+			if (state == gameState.START_BET) 
+			{
+				_model.putValue("Current_item_selcet_idx", para.Value );
+				update_select_item(_model.getValue("Current_item_selcet_idx"));
+				dispatcher(new ModelEvent("graph_update"));
+			}
+		}
+		
+		//----------------------------------------------------------------------share
+		//新增注單
+		private function createBet(betType:String):Object 
+		{
+			var uuid:Uuid = new Uuid();
+			
+			var frame:int = _opration.getMappingValue(modelName.BUY_ITEM_FRAME, betType);
+			var buy_at_price:Array = [];
+			var buy_range:Array  = [];
+			
+			if ( betType == "fall_down") 
+			{
+				buy_at_price.push ( _model.getValue("price_low") );
+				buy_range = buy_range.concat (_model.getValue("range_point")[1]) ;
+			}
+			else if ( betType == "raise_up") 
+			{
+				buy_at_price.push ( _model.getValue("price_high") );
+				buy_range = buy_range.concat (_model.getValue("range_point")[1]) ;
+			}
+			else if ( betType == "out_price") 
+			{
+				buy_at_price.push ( _model.getValue("price_high") );				
+				buy_range = buy_range.concat (_model.getValue("range_point")) ;
+			}
+			else 
+			{				
+				buy_at_price.push ( _model.getValue("price_low") );
+				buy_range = buy_range.concat (_model.getValue("range_point")) ;
+			}
+			
+			
 			var bet:Object = {  
 			                                "timestamp":1111,
 											"message_type":"MsgPlayerBet", 
 			                               "game_id":_model.getValue("game_id"),
 										   "game_type":_model.getValue(modelName.Game_Name),
 										   "game_round":_model.getValue("game_round"),
-										   
-										    "bet_type": idx_to_name.getValue( betType),
-										    "bet_amount":bet_amount,
-											"total_bet_amount":total_bet_amount,
-											"id":uuid.toString()
-										   
+										   									
+											"id":uuid.toString(),
+											"item_name":_model.getValue("current_item"),
+											"buy_type":frame,
+											"buy_at_price": buy_at_price,
+											"buy_point":buy_range,
+											"expect_value":_model.getValue("expect_profit"),
+											"rest_time":_model.getValue("order_time")											
 											};
-			
+			var resttime:String = _model.getValue("order_time");
 			return bet;
 		}
 		
-		//清除無uuid的注單(玩家按下取消鈕)
-		public function cleanBetNoUUID(betType:int):void {
-			var obs:Array = _Bet_info.getValue("self");
-			var obs_new:Array = [];
-			for each(var obj:Object in obs) {
-				if (obj["betType"] == betType && obj["id"] == "") {
-					//nothing
-				}else {
-					obs_new.push(obj);
-				}
-			}
+		[MessageHandler(type = "Model.ModelEvent", selector = "buy_ticket")]
+		public function bet_send(para:ModelEvent):void		
+		{
+			var behavior:String = para.Value[0];
+			if ( _Actionmodel.length() > 0) return ;
+			var bet:Object = createBet(behavior);
 			
-			_Bet_info.putValue("self", obs_new);
+			dispatcher( new ActionEvent(bet, "bet_action"));
+			dispatcher( new WebSoketInternalMsg(WebSoketInternalMsg.BETRESULT));
 			
-			//刷新籌碼元件
-			dispatcher(new ModelEvent("refreshCoin", betType));
-		}
-		
-		//清除有uuid的注單(投注失敗)
-		public function cleanBetUUID(uuid:String):void {
-			var obs:Array = _Bet_info.getValue("self");
-			var obs_new:Array = [];
-			var betType:int = 0;
-			for each(var obj:Object in obs) {
-				if (obj["id"] == uuid) {
-					betType = obj["betType"];
-				}else {
-					obs_new.push(obj);
-					
-				}
-			}
-			
-			_Bet_info.putValue("self", obs_new);
-			
-			//刷新籌碼元件
-			dispatcher(new ModelEvent("refreshCoin", betType));
-			//餘額不足訊息
-			dispatcher( new WebSoketInternalMsg(WebSoketInternalMsg.NO_CREDIT));
+			dispatcher(new ModelEvent("updatet_icket"));
 		}
 		
 		public function betTypeMain(e:Event,idx:int):Boolean
 		{			
 			//idx += 1;
 			if ( _Actionmodel.length() > 0) return false;
-
-			//該區未送出金額加總
-			var obs:Array = _Bet_info.getValue("self");
-			var unconfim_amount:int = 0;
-			for each(var ob:Object in obs) {
-				if (ob["betType"] == idx && ob["id"] == "") {
-					unconfim_amount += ob["bet_amount"];
-				}
-			}
 			
 			//押注金額判定(該區未送出金額不得超過餘額)
-			if ( unconfim_amount + _opration.array_idx("coin_list", "coin_selectIdx") > _model.getValue(modelName.CREDIT))
-			{
-				utilFun.Log("unconfim_amount: " + unconfim_amount);
-				dispatcher( new WebSoketInternalMsg(WebSoketInternalMsg.NO_CREDIT));
-				return false;
-			}	
+			//if ( _opration.array_idx("coin_list", "coin_selectIdx") > _model.getValue(modelName.CREDIT))
+			//{
+				//utilFun.Log("unconfim_amount: " + unconfim_amount);
+				//dispatcher( new WebSoketInternalMsg(WebSoketInternalMsg.NO_CREDIT));
+				//return false;
+			//}	
 			
-			utilFun.Log("betType = "+idx);
-			var bet:Object = { "betType": idx,
-											"bet_idx":_model.getValue("coin_selectIdx"),
-			                               "bet_amount": _opration.array_idx("coin_list", "coin_selectIdx"),
-										    "total_bet_amount": get_total_bet(idx) +_opration.array_idx("coin_list", "coin_selectIdx"),
-											"id":""
-			};
 			
-			dispatcher( new ActionEvent(bet, "bet_action"));
-			dispatcher( new WebSoketInternalMsg(WebSoketInternalMsg.BETRESULT));
-			dispatcher(new ModelEvent("updateCoin"));
+			//dispatcher( new ActionEvent(bet, "bet_action"));
+			//dispatcher( new WebSoketInternalMsg(WebSoketInternalMsg.BETRESULT));
+			//dispatcher(new ModelEvent("updateCoin"));
 			
 			return true;
 		}	
-		
-		public function bet_local(e:Event,idx:int):Boolean
-		{			
-			//idx += 1;
-			utilFun.Log("bet_local idx ="+idx);
-			
-			var bet:Object = { "betType": idx,
-										   "bet_idx":_model.getValue("coin_selectIdx"),
-			                               "bet_amount": _opration.array_idx("coin_list", "coin_selectIdx"),
-										    "total_bet_amount": get_total_bet(idx) +_opration.array_idx("coin_list", "coin_selectIdx"),
-											"id":""
-			};
-			
-			dispatcher( new ActionEvent(bet, "bet_action"));
-			
-			//fake bet proccess
-			dispatcher( new WebSoketInternalMsg(WebSoketInternalMsg.BETRESULT));
-			dispatcher(new ModelEvent("updateCoin"));
-			
-			return true;
-		}		
 		
 		[MessageHandler(type = "ConnectModule.websocket.WebSoketInternalMsg", selector = "Betresult")]
 		public function accept_bet():void
@@ -305,6 +305,7 @@ package Command
 				bet_list.push(bet_ob);
 				_Bet_info.putValue("self", bet_list);
 			}
+			_Actionmodel.dropMsg();
 			//self_show_credit()
 			
 			//for (var i:int = 0; i < bet_list.length; i++)
@@ -315,116 +316,7 @@ package Command
 			//}
 		}
 		
-		/*private function self_show_credit():void
-		{
-			var total:Number = get_total_bet(-1);
-			
-			var credit:int = _model.getValue(modelName.CREDIT);
-			//_model.putValue("after_bet_credit", credit - total);
-		}*/
-		
-		public function all_betzone_totoal():Number
-		{
-			var betzone:Array = _model.getValue(modelName.AVALIBLE_ZONE_IDX);
-			
-			var total:Number = 0;
-			for each (var i:int in betzone)
-			{
-				total +=get_total_bet(i);
-			}
-			return total;
-		}
-		
-		public function get_total_bet(type:int):Number
-		{
-			if ( _Bet_info.getValue("self") == null) return 0;
-			var total:Number = 0;
-			var bet_list:Array = _Bet_info.getValue("self");
-			for (var i:int = 0; i < bet_list.length; i++)
-			{
-				var bet:Object = bet_list[i];
-				if ( type == -1)
-				{
-					total += bet["bet_amount"];
-					continue;
-				}
-				else if( type == bet["betType"])
-				{
-					total += bet["bet_amount"];
-				}
-			}
-			
-			return total;
-		}
-		
-		public function has_Bet_type(type:int):Boolean
-		{
-			var bet_list:Array = _Bet_info.getValue("self");
-			for (var i:int = 0; i < bet_list.length; i++)
-			{
-				var bet:Object = bet_list[i];
-				if ( bet["betType"] == type) return true;				
-			}			
-			return false;
-		}
-		
-		public function Bet_type_betlist(type:int):Array
-		{
-			var bet_list:Array = _Bet_info.getValue("self");
-			var arr:Array = [];
-			for (var i:int = 0; i < bet_list.length; i++)
-			{
-				var bet:Object = bet_list[i];
-				if ( bet["betType"] == type)
-				{
-					arr.push( bet["bet_amount"]);
-				}
-			}			
-			return arr;
-		}
-		
-		public function bet_zone_amount():Array
-		{
-			
-			var zone:Array = _model.getValue(modelName.AVALIBLE_ZONE_IDX);
-			var mylist:Array = [];
-			for ( var i:int = 0; i < zone.length; i++)
-			{
-				mylist.push(0);
-			}
-			
-			var total:int = 0;
-			for (  i = 0; i < zone.length; i++)
-			{				
-				var map:int = _opration.getMappingValue("idx_to_result_idx", zone[i]);
-				var amount:int = get_total_bet(zone[i]);
-				mylist.splice(map, 1, amount);
-				total += amount;
-			}
-			mylist.push(total);
-			return mylist;
-		}
-		
-		public function check_jp():Number
-		{
-			//var array:Array = _model.getValue("power_jp");
-			//for ( var i:int = 0;i< array.length
-			//
-			//return 
-			
-			var name_to_idx:DI = _model.getValue("Bet_name_to_idx");
-			var check_zone:Array = ["BetBWPlayer", "BetBWBanker"];
-					
-			var total:Number = 0;
-			for ( var i:int = 0; i < check_zone.length ; i++)
-			{
-				var zone:int = name_to_idx.getValue(check_zone[i]);	
-				total += get_total_bet(zone);
-			}
-			
-			return total;
-		}
-		
+		//取得某一種key值
 		public function get_my_bet_info(type:String):Array
 		{
 			var arr:Array = _Bet_info.getValue("self");			
@@ -433,11 +325,23 @@ package Command
 			for ( var i:int = 0; i < arr.length ; i++)
 			{
 				var bet_ob:Object = arr[i];
-				if ( type == "table") data.push(bet_ob["betType"]);
-				if ( type == "amount") data.push(bet_ob["bet_amount"]);								
+				data.push(bet_ob[type]);
 			}
 			return data;
-		}
+		}		
+		
+		public function get_key_info(type:String,target:Array):Array
+		{
+			var arr:Array = target;		
+			var data:Array = [];
+			
+			for ( var i:int = 0; i < arr.length ; i++)
+			{
+				var bet_ob:Object = arr[i];
+				data.push(bet_ob[type]);
+			}
+			return data;
+		}		
 		
 		public function get_my_betlist():Array
 		{		
@@ -467,10 +371,7 @@ package Command
 				var resultob:Object = result_list[i];				
 				utilFun.Log("bet_type=" + resultob.bet_type  + "  " + resultob.win_state );
 				
-				var betzon_idx:int = _opration.getMappingValue("Bet_name_to_idx", resultob.bet_type);
-				
-				check_lost(resultob, betzon_idx);
-				check_bingWin(resultob);
+				var betzon_idx:int = _opration.getMappingValue("Bet_name_to_idx", resultob.bet_type);			
 			//	check_specail(resultob);
 			//	check_powerbar(resultob);
 				
@@ -510,77 +411,18 @@ package Command
 			
 		}
 		
-		public function check_lost(resultob:Object,betzon_idx:int):void
-		{
-			if ( resultob.win_state == "WSLost") 
-			{
-				var clean:Array = _model.getValue("clean_zone");
-				clean.push (betzon_idx);
-				_model.putValue("clean_zone",clean);
-			}
-			
-		}
-		
-		public function check_bingWin(resultob:Object):void
-		{
-			//bigwin condition  type:player,winstat:!WSBWNormalWin && !WSWin
-			//winst: winste  odd:result.odds		
-			//大獎
-			if ( resultob.win_state =="WSWin")
-			{
-					//bigwin = _opration.getMappingValue(modelName.BIG_POKER_MSG, resultob.win_state);
-				var bingwin:int = _opration.getMappingValue(modelName.BIG_POKER_MSG, resultob.bet_type);
-				_model.putValue("bigwin", bingwin);
-				_model.putValue("winstr", bingwin);
-				_model.putValue("win_odd",resultob.odds);
-			}			
-		}
-		
-		public function check_specail(resultob:Object):void
-		{
-		
-		}
-		
-		public function check_powerbar(resultob:Object):void
-		{
-			//special condition
-			//{"bet_attr": "BetAttrBonus", "bet_amount": 0, "odds": 0, "win_state": "WSLost", "real_win_amount": 0, "bet_type": "BetBWBonusTripple", "settle_amount": 0},
-			//{"bet_attr": "BetAttrBonus", "bet_amount": 0, "odds": 0, "win_state": "WSLost", "real_win_amount": 0, "bet_type": "BetBWBonusTwoPair", "settle_amount": 0}
-			if( resultob.bet_type =="BetBWBonusTwoPair") 
-			{
-				var extra:int = resultob.bet_amount * resultob.odds;
-				if ( extra > 0)
-				{
-					var array:Array = _model.getValue("power_jp");
-					array[0] = resultob.bet_amount * resultob.odds;
-					_model.putValue("hintJp", 1);
-				}				
-			}
-			if( resultob.bet_type =="BetBWBonusTripple") 
-			{
-				var extra_two:int = resultob.bet_amount * resultob.odds;
-				if ( extra_two )
-				{
-					var array2:Array = _model.getValue("power_jp");
-					array2[1] = resultob.bet_amount * resultob.odds;
-					_model.putValue("hintJp", 1);
-				}				
-			}
-		}
-		
 		[MessageHandler(type = "Model.ModelEvent", selector = "start_bet")]
 		public function Clean_bet():void
 		{
-			save_bet();
-			_Bet_info.clean();			
+			//save_bet();
+			//_Bet_info.clean();			
 			
-			_Bet_info.putValue("self", [] ) ;
+			//_Bet_info.putValue("self", [] ) ;
 		}
 		
 		public function save_bet():void
 		{
-			var bet_list:Array = _Bet_info.getValue("self");
-			//utilFun.Log("save_bet bet_list  = "+bet_list.length );
+			var bet_list:Array = _Bet_info.getValue("self");		
 			if ( bet_list.length ==0) return;
 			_model.putValue("history_bet", bet_list);
 		}
@@ -591,153 +433,11 @@ package Command
 			dispatcher(new ModelEvent("can_not_rebet"));
 		}
 		
-		public function need_rebet():Boolean
+		public function cleanBet(idx:int ):void 
 		{
-			var bet_list:Array  = _model.getValue("history_bet");			
-			if ( bet_list.length ==0) return false;
-			
-			return true;
-		}
-		
-		public function re_bet():void
-		{
-			var bet_list:Array  = _model.getValue("history_bet");
-			
-			utilFun.Log("check bet_list  = " + bet_list );
-			if ( bet_list == null) return;
-			
-			//與賓果不同,同一注區會分多筆,必需要等上一筆注單確認,再能再下第二筆,不然total_bet_amount,值會錯
-			utilFun.Log("bet_list  = " + bet_list.length );
-			if ( bet_list.length != 0)
-			{			
-				var coin_list:Array = _model.getValue("coin_list");
-				var bet:Object = bet_list[0];				
-				var mybet:Object = { "betType": bet["betType"],
-													  "bet_idx":bet["bet_idx"],
-														"bet_amount": coin_list[ bet["bet_idx"]],
-														"total_bet_amount": (get_total_bet( bet["betType"]) +coin_list[ bet["bet_idx"]])
-				};
-			
-				utilFun.Log("bet_info  = " + mybet["betType"] +" amount =" + mybet["bet_amount"] + " idx = " + bet["bet_idx"] +" total_bet_amount " +  (get_total_bet( bet["betType"]) +coin_list[ bet["bet_idx"]])  );
-				bet_list.shift();
-				_model.putValue("history_bet",bet_list);
-				dispatcher( new ActionEvent(mybet, "bet_action"));
-				dispatcher( new WebSoketInternalMsg(WebSoketInternalMsg.BET));
-			}
-		}
-		
-		public function handle_odd(checkarr:Array):void
-		{
-			//handle data
-			var total:Array = checkarr; //_model.getValue("round_paytable");			
-			var frame:Array = [];
-			var xmark:Array = [];
-			var zero:Array = [];
-			var odd:Array  = [];
-			var idx:int = 0;
-			var select_idx:Array = [];
-			
-			for ( var i:int = 0; i < total.length; i++)
-			{				
-				if ( total[i] == -1)
-				{
-					zero.push(1);
-				}
-				else 
-				{
-					frame[idx] = _opration.getMappingValue(modelName.BET_ZONE_MAPPING, i);
-					odd[idx] = total[i];
-					idx++;
-					select_idx.push(i);
-					xmark.push(12);					
-				}
-			}
-			_model.putValue("paytable_frame", frame.reverse());
-			_model.putValue("paytable_display_idx", select_idx);
-			
-			var odd_with_idx:Array = create_with_idx(total);
-			odd_with_idx.sort(sort_high_to_low);
-			
-			var oddvalue:Number =  odd_with_idx[0]["value"];			
-			if ( oddvalue>= 15 && oddvalue != -1) 
-			{
-				var idx:int = odd_with_idx[0]["origi_position"];
-				_model.putValue("highest_idx", idx);
-			} 
-			else _model.putValue("highest_idx", -1);
-			
-			oddvalue = odd_with_idx[1]["value"];
-			if ( oddvalue >= 15 && oddvalue != -1) 
-			{
-				var idx:int = odd_with_idx[1]["origi_position"];
-				_model.putValue("sec_high_idx", idx);
-			} 
-			else _model.putValue("sec_high_idx", -1);
-			
-			
-			xmark.push.apply(xmark, zero);
-			_model.putValue("paytable_xmark", xmark);			
-			
-			odd.reverse();			
-			var copyarr:Array = [];
-			copyarr.push.apply(copyarr, odd );
-			_model.putValue("odd_data",copyarr);
-		}
-		
-		private function create_with_idx(raw_arr:Array):Array
-		{
-			var copy_instance:Array = [];
-			copy_instance.push.apply(copy_instance, raw_arr);
-			
-			var ob_with_origi_idx:Array = [];
-			
-			for ( var i:int = 0; i < raw_arr.length; i++)
-			{
-				var info_ob:Object = { "value": raw_arr[i],												
-													   "origi_position": i
-				};
-				
-				ob_with_origi_idx.push(info_ob);
-			}
-			
-			return ob_with_origi_idx;
-		}
-		
-		//籌碼面額換算
-		public function getAllcoinData(betType:int):Array {
-			var total:int = get_total_bet(betType);			
-			var allcoinData:Array = [];
-			var coin:Array = _model.getValue("coin_list").concat();
-			//由大到小
-			coin.reverse();
-			
-			for each(var chipValue:int in coin){
-				var coinNum:int = total / chipValue;
-				for (var i:int = 0; i < coinNum; i++ ) {
-					allcoinData.push(chipValue);
-				}
-				
-				total = total % chipValue;
-			}
-			
-			return allcoinData;
-		}
-		
-		//傳回值 -1 表示第一個參數 a 是在第二個參數 b 之前。
-		//傳回值 1 表示第二個參數 b 是在第一個參數 a 之前。
-		//傳回值 0 指出元素都具有相同的排序優先順序。
-		private function sort_high_to_low(a:Object, b:Object):int 
-		{
-			if ( a["value"] >b["value"]) return -1;
-			else if ( a["value"] < b["value"]) return 1;
-			else return 0;			
-		}
-		
-		private function sort_low_to_high(a:Object, b:Object):int 
-		{
-			if ( a <b) return -1;
-			else if ( a > b) return 1;
-			else return 0;			
+			var obs:Array = _Bet_info.getValue("self");			
+			obs.splice(idx,1);
+			_Bet_info.putValue("self", obs);
 		}
 	}
 

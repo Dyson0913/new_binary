@@ -114,16 +114,16 @@
 				else  if( (_yestoday_close_price - _old_y ) < 0 && (_old_y  -_new_y) < _yestoday_close_price)
 				{
 					//utilFun.Log("down to up");
-					var y_ration:Number =  _yestoday_close_price -_old_y ;				
-					var x_to_mid_line:Number = (_new_x -_old_x) /  Math.abs(total_distance)*	Math.abs(y_ration)
+					var y_ration_2:Number =  _yestoday_close_price -_old_y ;				
+					var x_to_mid_line_2:Number = (_new_x -_old_x) /  Math.abs(total_distance)*	Math.abs(y_ration_2)
 					color += 1;
 					color %= 2;					
 					
-					var back_x:Number = (_new_x -_old_x) -x_to_mid_line;
-					var back_y:Number = _new_y + y_ration;
+					var back_x:Number = (_new_x -_old_x) -x_to_mid_line_2;
+					var back_y_2:Number = _new_y + y_ration_2;
 					//utilFun.Log("back_x= "+ (back_x  ));
 					graphics.lineStyle( 2, pan_color[color] );
-					graphics.moveTo(_new_x - back_x, _old_y  -_new_y +back_y);
+					graphics.moveTo(_new_x - back_x, _old_y  -_new_y +back_y_2);
 					graphics.lineTo(_new_x , _old_y  -_new_y );						
 					//utilFun.Log("x= "+ (_new_x ));
 					//utilFun.Log("y= "+ (_old_y  -_new_y));

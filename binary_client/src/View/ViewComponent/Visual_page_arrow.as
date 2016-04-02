@@ -1,7 +1,9 @@
 package View.ViewComponent 
 {	
+	import Command.BetCommand;
 	import flash.display.MovieClip;
 	import flash.events.Event;
+	import Model.ModelEvent;
 	import Model.PageStyleModel;
 	import View.ViewBase.VisualHandler;
 	import View.Viewutil.*;
@@ -12,12 +14,13 @@ package View.ViewComponent
 	
 	
 	/**
-	 * differ theme
+	 * differ page item diplay
 	 * @author Dyson0913
 	 */
 	public class Visual_page_arrow  extends VisualHandler
 	{
-		private var _pageModel:PageStyleModel; 
+		[Inject]
+		public var _betCommand:BetCommand;
 		
 		public function Visual_page_arrow() 
 		{
@@ -27,16 +30,16 @@ package View.ViewComponent
 		public function init():void
 		{
 			var arrow:MultiObject = create("arrow", ["arrow_left", "arrow_right"]);
+			arrow.MouseFrame = utilFun.Frametype(MouseBehavior.Customized, [0, 0, 3, 2]);
 			arrow.Posi_CustzmiedFun = _regular.Posi_Row_first_Setting;
 			arrow.Post_CustomizedData = [2,1826,0];
 			arrow.container.x = 1.1;
 			arrow.container.y = 593.35;
-			arrow.Create_(2);
+			arrow.Create_(2);		
 			
-			//put_to_lsit(arrow);
-			
-			_pageModel = new PageStyleModel();
-			_pageModel.UpDateModel(["歐元","美元","英鎊","加幣","日元","韓元","港幣","新台幣","人民幣","比特幣","新加坡幣"], 11);	
+			//TODO fake
+			_betCommand.set_current_page_module(_model.getValue("all_list")[0],"stage1");
+			_betCommand.update_select_item(_model.getValue("Current_item_selcet_idx"));
 			
 			state_parse([gameState.NEW_ROUND,gameState.END_ROUND]);
 		}
@@ -45,10 +48,15 @@ package View.ViewComponent
 		{
 			setFrame("arrow", 2);
 			var arrow:MultiObject = Get("arrow");			
-			arrow.MouseFrame = utilFun.Frametype(MouseBehavior.Customized, [0, 0, 3, 2]);
 			arrow.mousedown = page_change;
 			arrow.mouseup = empty_reaction;
-			arrow.FlushObject();			
+			arrow.FlushObject();
+			
+			//set model
+			//var state:int = _model.getValue(modelName.GAMES_STATE);
+			//if (state == gameState.NEW_ROUND) _current_Model = _pageModel_set[0];
+			//if ( state == gameState.END_ROUND) _current_Model = _pageModel_set[1];
+			
 		}
 		
 		override public function disappear():void
@@ -61,19 +69,20 @@ package View.ViewComponent
 		
 		public function page_change(e:Event, idx:int):Boolean
 		{			
-			if ( idx == 0) _pageModel.PrePage();		
-			else _pageModel.NextPage();
+			var _current_Model:PageStyleModel =  _model.getValue("current_page_module");
+			if ( idx == 0) _current_Model.PrePage();		
+			else _current_Model.NextPage();
+			
+			_betCommand.update_page_and_all();			
 			updatepage();
 			
 			return true;
 		}
 		
-		private function updatepage():void
-		{
-			var data:Array = _pageModel.GetPageDate();
-			Get("spider").CustomizedData = [data];
-			Get("spider").customized();
-		}
+		public function updatepage():void
+		{			
+			dispatcher(new ModelEvent("page_update"));	
+		}	
 		
 		override public function test_suit():void
 		{
