@@ -103,7 +103,7 @@ package Model
 		//取得目前頁數點擊item
 		public function  GetOneDate(idx:int):*
 		{
-			_Select_item_Idx = _ItemPageIdx + idx;	
+			_Select_item_Idx = _ItemPageIdx + idx;
 			return _ItemList[_Select_item_Idx];
 		}
 		

@@ -152,7 +152,7 @@ package Command
 			
 		}
 		
-		//更新目前page model 項目時,也一拼更新該page_model 一頁所需的data,以及讓項目的所有data
+		//更新目前page model 項目時,也一拼更新該page_model 一頁所需的data,以及該項目的所有data
 		public function set_current_page_module(dynamic_module:Array,pagekind:String ):void
 		{
 			var current_module:PageStyleModel = _model.getValue("page_module").getValue(pagekind);

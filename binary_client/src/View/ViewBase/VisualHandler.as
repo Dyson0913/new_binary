@@ -73,8 +73,7 @@ package View.ViewBase
 			Log("name = " + arr);
 			var myContain:MultiObject = create(arr[2] + "_Contain", [ResName.emptymc])
 			myContain.Create_(1);
-			_myContain = myContain;
-			
+			_myContain = myContain;			
 		}
 		
 		public function set_mission_id(id:int ):void
